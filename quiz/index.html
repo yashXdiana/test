@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="mr-IN" data-theme="light" data-quiz-font-size="small">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>StudySphere — Quiz Player</title>
+
+  <!-- Google Fonts: Mukta for Marathi (Devanagari) & Latin -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Quiz Dedicated Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/quiz.css">
+
+  <!-- Zero-Flicker Theme & Quiz Font Size Initialization -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('studysphere_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        var savedFontSize = localStorage.getItem('studysphere_quiz_font_size') || 'small';
+        document.documentElement.setAttribute('data-quiz-font-size', savedFontSize);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       Full Viewport (100dvh) Quiz Application Root
+       ========================================================================== -->
+  <div id="quizAppRoot" class="quiz-app-container">
+
+    <!-- TOP: Responsive Quiz Header -->
+    <header class="quiz-header" role="banner">
+      <!-- Desktop & Tablet Header Layout -->
+      <div class="quiz-header-desktop-view">
+        <div class="quiz-header-left">
+          <h1 class="quiz-title-main" id="quizHeaderTitle">Modern India — Practice Test 01</h1>
+          <span class="quiz-sub-badge" id="quizHeaderSub">MPSC Group C 2026 • Prelims • इतिहास • आधुनिक भारताचा इतिहास</span>
+        </div>
+
+        <div class="quiz-header-center">
+          <span class="progress-counter-badge" id="quizProgressCenter">Q 01 / 05</span>
+        </div>
+
+        <div class="quiz-header-right">
+          <!-- Compact Quiz Font Size Control -->
+          <button type="button" class="btn-quiz-font-toggle" id="quizFontToggleBtn" aria-label="Change Reading Font Size" title="Font Size: Small (click to toggle Small/Medium/Large)">
+            <span class="font-indicator-label">Font:</span>
+            <span class="font-current-val" id="quizFontCurrentVal">Small</span>
+          </button>
+
+          <!-- Timer Display -->
+          <div class="quiz-timer-pill" id="quizTimerPill" aria-live="polite" aria-label="Remaining Time">
+            <svg class="timer-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="quizTimerText">05:00</span>
+          </div>
+
+          <!-- Exit Control -->
+          <button type="button" class="btn-quiz-exit" id="quizExitBtn" aria-label="Exit Quiz">Exit</button>
+        </div>
+      </div>
+
+      <!-- Mobile 3-Row Header Layout (Context Visible, No Overflow) -->
+      <div class="quiz-header-mobile-view">
+        <!-- Row 1: Quiz Title + Controls -->
+        <div class="mobile-hdr-row-1">
+          <h1 class="mobile-quiz-title" id="mobileQuizTitle">Modern India — Practice Test 01</h1>
+          <div class="mobile-hdr-controls">
+            <button type="button" class="btn-quiz-font-toggle mobile-font-btn" id="mobileFontToggleBtn" aria-label="Font Size">
+              <span id="mobileFontCurrentVal">Small</span>
+            </button>
+            <button type="button" class="btn-quiz-exit mobile-exit-btn" id="mobileExitBtn" aria-label="Exit Quiz">Exit</button>
+          </div>
+        </div>
+
+        <!-- Row 2: Subject & Chapter Context -->
+        <div class="mobile-hdr-row-2">
+          <span class="mobile-context-text" id="mobileQuizContext">MPSC Group C 2026 • Prelims • इतिहास • आधुनिक भारताचा इतिहास</span>
+        </div>
+
+        <!-- Row 3: Question Counter, Palette Toggle & Timer -->
+        <div class="mobile-hdr-row-3">
+          <div class="mobile-counter-wrap">
+            <span class="mobile-counter-text" id="mobileProgressCounter">Q 01 / 05</span>
+            <button type="button" class="btn-mobile-palette-toggle" id="mobilePaletteToggle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:13px; height:13px;" aria-hidden="true">
+                <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                <path d="M7 8h10"></path>
+                <path d="M7 12h10"></path>
+                <path d="M7 16h10"></path>
+              </svg>
+              <span>Palette</span>
+            </button>
+          </div>
+
+          <div class="quiz-timer-pill mobile-timer-pill" id="mobileTimerPill" aria-live="polite">
+            <svg class="timer-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span id="mobileTimerText">05:00</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MIDDLE: Active Workspace Layout -->
+    <main class="quiz-workspace-layout" id="quizWorkspace" role="main">
+      
+      <!-- Central: Scrollable Question Viewport -->
+      <section class="quiz-question-viewport" id="quizQuestionViewport" aria-label="Question Content">
+        <div class="question-scroll-content" id="questionScrollContent">
+          <!-- Dynamic Question + Options rendered into ONE box by quiz.js -->
+        </div>
+      </section>
+
+      <!-- Right: Desktop Question Dashboard / Palette Sidebar -->
+      <aside class="quiz-desktop-palette-sidebar" id="quizDesktopPalette" aria-label="Question Dashboard">
+        <div class="palette-heading">
+          <span>Question Palette</span>
+          <span style="font-size: 0.75rem; color: var(--quiz-text-muted);" id="desktopPaletteTotalCount">5 Questions</span>
+        </div>
+
+        <div class="palette-grid" id="desktopPaletteGrid">
+          <!-- Number buttons rendered by quiz.js -->
+        </div>
+
+        <div class="palette-legend-block">
+          <div class="legend-item">
+            <span class="legend-badge" style="background-color: var(--status-answered-bg);"></span>
+            <span>Answered (उत्तर दिले)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-badge" style="background-color: var(--status-not-visited-bg);"></span>
+            <span>Not Visited (पाहिले नाही)</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-badge" style="background-color: var(--status-marked-bg);"></span>
+            <span>Marked for Review</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-badge" style="background-color: var(--status-ans-marked-bg);"></span>
+            <span>Answered + Marked</span>
+          </div>
+        </div>
+      </aside>
+
+    </main>
+
+    <!-- BOTTOM: Fixed Quiz Control Bar (Two-Tier Responsive Layout for Mobile) -->
+    <footer class="quiz-bottom-control-bar" id="quizBottomControlBar" role="region" aria-label="Quiz Controls">
+      <!-- Fixed Mark for Review Action -->
+      <div class="bottom-bar-left">
+        <button type="button" class="btn-mark-review" id="btnToggleMarkReview">
+          <span id="markReviewStarIcon">☆</span>
+          <span id="markReviewText">Mark for Review</span>
+        </button>
+      </div>
+
+      <!-- Navigation & Submit Controls -->
+      <div class="bottom-bar-right">
+        <button type="button" class="control-btn btn-nav-prev" id="btnNavPrev" disabled>
+          <span aria-hidden="true">←</span>
+          <span>Previous</span>
+        </button>
+
+        <button type="button" class="control-btn btn-nav-next" id="btnNavNext">
+          <span>Next</span>
+          <span aria-hidden="true">→</span>
+        </button>
+
+        <button type="button" class="control-btn btn-nav-submit" id="btnNavSubmit" style="display: none;">
+          <span>Submit Quiz ✓</span>
+        </button>
+      </div>
+    </footer>
+
+    <!-- Result / Review Container -->
+    <div id="quizResultContainer" class="quiz-result-wrapper" style="display: none;">
+      <!-- Injected dynamically by quiz.js -->
+    </div>
+
+  </div>
+
+  <!-- ==========================================================================
+       MOBILE: Left-Side Sliding Question Palette Drawer & Overlay (55vw)
+       ========================================================================== -->
+  <div class="mobile-palette-overlay" id="mobilePaletteOverlay" aria-hidden="true"></div>
+  <aside class="mobile-palette-drawer-left" id="mobilePaletteDrawer" role="dialog" aria-modal="true" aria-label="Question Palette">
+    <div class="mobile-drawer-header">
+      <div class="drawer-title-group">
+        <span class="mobile-drawer-title">Question Palette</span>
+        <span class="mobile-drawer-subtitle">प्रश्न सूची (55vw)</span>
+      </div>
+      <button type="button" class="btn-drawer-close" id="mobilePaletteClose" aria-label="Close Palette">✕</button>
+    </div>
+
+    <div class="mobile-drawer-body">
+      <div class="palette-grid" id="mobilePaletteGrid">
+        <!-- Palette Number buttons rendered by quiz.js -->
+      </div>
+
+      <div class="palette-legend-block">
+        <div class="legend-item">
+          <span class="legend-badge" style="background-color: var(--status-answered-bg);"></span>
+          <span>Answered</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-badge" style="background-color: var(--status-not-visited-bg);"></span>
+          <span>Not Visited</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-badge" style="background-color: var(--status-marked-bg);"></span>
+          <span>Marked for Review</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-badge" style="background-color: var(--status-ans-marked-bg);"></span>
+          <span>Answered + Marked</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       Exit Confirmation Modal
+       ========================================================================== -->
+  <div class="quiz-modal-backdrop" id="exitConfirmModal" role="dialog" aria-modal="true" aria-labelledby="exitModalTitle">
+    <div class="quiz-dialog-box">
+      <h2 class="modal-dialog-title" id="exitModalTitle">Exit Quiz? (चाचणी सोडायची आहे का?)</h2>
+      <div class="modal-dialog-body">
+        आपण चाचणी सोडल्यास आतापर्यंत सोडवलेली उत्तरे जतन केली जाणार नाहीत आणि चाचणी बंद होईल.
+      </div>
+      <div class="modal-actions-row">
+        <button type="button" class="btn-modal-cancel" id="btnCancelExit">Continue Quiz (सुरू ठेवा)</button>
+        <button type="button" class="btn-modal-danger" id="btnConfirmExit">Exit Quiz (बाहेर पडा)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Submit Confirmation Modal
+       ========================================================================== -->
+  <div class="quiz-modal-backdrop" id="submitConfirmModal" role="dialog" aria-modal="true" aria-labelledby="submitModalTitle">
+    <div class="quiz-dialog-box">
+      <h2 class="modal-dialog-title" id="submitModalTitle">Submit Quiz? (चाचणी सबमिट करायची?)</h2>
+      <div class="modal-dialog-body">
+        चाचणी पूर्ण झाली आहे. कृपया आपली उत्तरे तपासा आणि सबमिट करा:
+        <div class="submit-stats-list">
+          <div class="stat-metric-card">
+            <span class="stat-metric-val" id="statValAnswered" style="color: #2E7D32;">0</span>
+            <span class="stat-metric-lbl">Answered</span>
+          </div>
+          <div class="stat-metric-card">
+            <span class="stat-metric-val" id="statValUnanswered" style="color: var(--quiz-text-dim);">0</span>
+            <span class="stat-metric-lbl">Unanswered</span>
+          </div>
+          <div class="stat-metric-card">
+            <span class="stat-metric-val" id="statValMarked" style="color: var(--status-marked-bg);">0</span>
+            <span class="stat-metric-lbl">Marked</span>
+          </div>
+        </div>
+      </div>
+      <div class="modal-actions-row">
+        <button type="button" class="btn-modal-cancel" id="btnCancelSubmit">Continue Quiz</button>
+        <button type="button" class="btn-modal-confirm" id="btnConfirmSubmit">Submit Quiz ✓</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Report Question Modal (Prefilled Telegram Compose Flow)
+       ========================================================================== -->
+  <div class="quiz-modal-backdrop" id="reportQuestionModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
+    <div class="quiz-dialog-box">
+      <h2 class="modal-dialog-title" id="reportModalTitle">🚩 Report Question (प्रश्नात त्रुटी नोंदवा)</h2>
+      <div class="modal-dialog-body">
+        <div id="reportTargetInfo" class="report-meta-box">
+          <!-- Injected dynamically with Quiz ID, Question ID, and text -->
+        </div>
+        <label for="reportReasonSelect" style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:6px; color:var(--quiz-text);">त्रुटीचा प्रकार (Select Issue):</label>
+        <select id="reportReasonSelect" class="report-reason-select">
+          <option value="Wrong Answer Key / चुकीचे उत्तर">दिलेले उत्तर चुकीचे वाटते (Wrong Answer Key)</option>
+          <option value="Typo / भाषांतर किंवा टंकलेखन चूक">टंकलेखन किंवा भाषांतर चूक (Typo / Translation)</option>
+          <option value="Question Ambiguity / प्रश्नात संदिग्धता">प्रश्नाची रचना अस्पष्ट आहे (Ambiguous Question)</option>
+          <option value="Out of Syllabus / अभ्यासक्रमाबाहेर">अभ्यासक्रमाबाहेरचा प्रश्न (Out of Syllabus)</option>
+        </select>
+        <p style="font-size:0.8rem; color:var(--quiz-text-muted); margin:0; line-height:1.4;">
+          हा अहवाल Telegram उघडून थेट संदेश चौकटीत (compose box) भरला जाईल. आपल्याला फक्त <strong>Send</strong> बटण दाबावे लागेल.
+        </p>
+      </div>
+      <div class="modal-actions-row">
+        <button type="button" class="btn-modal-cancel" id="btnCancelReport">रद्द करा (Cancel)</button>
+        <button type="button" class="btn-modal-confirm" id="btnSubmitReport" style="background-color:#229ED9;">
+          <span>Telegram उघडा व पाठवा</span>
+          <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Standalone Quiz Engine Controller -->
+  <script src="../assets/js/quiz.js"></script>
+</body>
+</html>

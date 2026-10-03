@@ -1,0 +1,24 @@
+{
+"subject": "history",
+"subjectNameMr": "इतिहास",
+"subjectNameEn": "History",
+"section": "prelims",
+"quizzes": [
+{
+"quizId": "H-CH01-001",
+"title": "Modern India — Practice Test 01",
+"titleMr": "आधुनिक भारत — सराव चाचणी ०१",
+"type": "Practice Quiz",
+"chapterId": "H-01",
+"chapterNameMr": "आधुनिक भारताचा इतिहास",
+"chapterNameEn": "Modern Indian History",
+"questionCount": 5,
+"marks": 5,
+"difficulty": "Medium",
+"duration": 5,
+"durationFormatted": "5 Minutes",
+"negativeMarking": 0.25,
+"questionFile": "../quizzes/pre/history/questions/quiz-001.json"
+}
+]
+}

@@ -1,0 +1,265 @@
+{
+"quizId": "H-CH01-001",
+"title": "Modern India — Practice Test 01",
+"titleMr": "आधुनिक भारत — सराव चाचणी ०१",
+"chapterId": "H-01",
+"chapterNameMr": "आधुनिक भारताचा इतिहास",
+"chapterNameEn": "Modern Indian History",
+"totalQuestions": 5,
+"totalMarks": 5,
+"durationMinutes": 5,
+"negativeMarkingPerWrong": 0.25,
+"questions": [
+{
+"questionId": "Q01",
+"questionType": "standard",
+"chapterId": "H-01",
+"difficulty": "Medium",
+"marks": 1,
+"question": {
+"mr": "भारतीय राष्ट्रीय काँग्रेसचे पहिले अधिवेशन १८८५ मध्ये कोठे भरले होते आणि त्याचे अध्यक्ष कोण होते?",
+"en": "Where was the first session of the Indian National Congress held in 1885 and who presided over it?"
+},
+"options": [
+{
+"id": "A",
+"text": {
+"mr": "पुणे — फिरोजशाह मेहता",
+"en": "Pune — Pherozeshah Mehta"
+}
+},
+{
+"id": "B",
+"text": {
+"mr": "मुंबई (गोकुळदास तेजपाल संस्कृत कॉलेज) — व्योमेशचंद्र बॅनर्जी",
+"en": "Bombay (Gokuldas Tejpal Sanskrit College) — Womesh Chandra Bonnerjee"
+}
+},
+{
+"id": "C",
+"text": {
+"mr": "कोलकाता — दादाभाई नौरोजी",
+"en": "Calcutta — Dadabhai Naoroji"
+}
+},
+{
+"id": "D",
+"text": {
+"mr": "मद्रास — बद्रुद्दीन तय्यबजी",
+"en": "Madras — Badruddin Tyabji"
+}
+}
+],
+"correctAnswer": "B",
+"explanation": {
+"mr": "भारतीय राष्ट्रीय काँग्रेसचे पहिले अधिवेशन २८ ते ३१ डिसेंबर १८८५ दरम्यान मुंबई येथील गोकुळदास तेजपाल संस्कृत कॉलेजमध्ये भरले होते. या अधिवेशनाचे अध्यक्ष व्योमेशचंद्र बॅनर्जी (W. C. Bonnerjee) होते व एकूण ७२ प्रतिनिधी उपस्थित होते. हे अधिवेशन पुण्यात होणार होते, परंतु पुण्यात कॉलराची साथ पसरल्याने ते मुंबईत हलवण्यात आले.",
+"en": "The first session of the Indian National Congress was held from 28 to 31 December 1885 at Gokuldas Tejpal Sanskrit College in Bombay, presided over by Womesh Chandra Bonnerjee with 72 delegates attending. It was originally planned in Pune but moved due to a cholera outbreak."
+}
+},
+{
+"questionId": "Q02",
+"questionType": "statement",
+"chapterId": "H-01",
+"difficulty": "Medium",
+"marks": 1,
+"question": {
+"mr": "लॉर्ड कॉर्नवॉलिसने १७९३ मध्ये लागू केलेल्या 'कायमधारा पद्धती' (Permanent Settlement) बाबत खालील विधाने विचारात घ्या:",
+"en": "Consider the following statements regarding the 'Permanent Settlement' introduced by Lord Cornwallis in 1793:"
+},
+"statements": [
+{
+"index": "१",
+"mr": "ही पद्धत बंगाल, बिहार आणि ओरिसा प्रांतात लागू करण्यात आली होती.",
+"en": "This system was introduced in the provinces of Bengal, Bihar, and Orissa."
+},
+{
+"index": "२",
+"mr": "या पद्धतीनुसार जमीन महसूल दर दहा वर्षांनी नव्याने ठरवला जात असे.",
+"en": "Under this system, the land revenue was reassessed every ten years."
+},
+{
+"index": "३",
+"mr": "या पद्धतीत जमीनदारांना जमिनीचे कायमस्वरूपी मालक मानण्यात आले.",
+"en": "In this system, landlords (zamindars) were recognized as permanent owners of the land."
+}
+],
+"questionPrompt": {
+"mr": "वरीलपैकी कोणते विधान/विधाने बरोबर आहेत?",
+"en": "Which of the above statement(s) is/are correct?"
+},
+"options": [
+{
+"id": "A",
+"text": {
+"mr": "फक्त विधान १ आणि २",
+"en": "Only statements 1 and 2"
+}
+},
+{
+"id": "B",
+"text": {
+"mr": "फक्त विधान २ आणि ३",
+"en": "Only statements 2 and 3"
+}
+},
+{
+"id": "C",
+"text": {
+"mr": "फक्त विधान १ आणि ३",
+"en": "Only statements 1 and 3"
+}
+},
+{
+"id": "D",
+"text": {
+"mr": "सर्व विधाने १, २ आणि ३ बरोबर",
+"en": "All statements 1, 2, and 3 are correct"
+}
+}
+],
+"correctAnswer": "C",
+"explanation": {
+"mr": "विधान २ चुकीचे आहे. कायमधारा पद्धतीमध्ये जमीन महसुलाची रक्कम कायमस्वरूपी निश्चित (Fixed permanently) करण्यात आली होती, ती १० वर्षांनी बदलली जात नव्हती. जमीनदारांना जमिनीचे वंशपरंपरागत मालक मानले गेले आणि त्यांना ब्रिटिश कंपनीला निश्चित महसूल द्यावा लागत होता.",
+"en": "Statement 2 is incorrect. Under the Permanent Settlement, the state's revenue demand was fixed permanently, not revised every ten years. Statements 1 and 3 are factual."
+}
+},
+{
+"questionId": "Q03",
+"questionType": "standard",
+"chapterId": "H-01",
+"difficulty": "Medium",
+"marks": 1,
+"question": {
+"mr": "१८५७ च्या उठावादरम्यान साताऱ्यात छत्रपतींच्या गादीचे पुनरुज्जीवन करण्यासाठी उठावाचे नेतृत्व कोणी केले होते?",
+"en": "During the Revolt of 1857, who led the resistance in Satara to restore the throne of the Chhatrapati?"
+},
+"options": [
+{
+"id": "A",
+"text": {
+"mr": "रंगो बापूजी गुप्ते",
+"en": "Rango Bapuji Gupte"
+}
+},
+{
+"id": "B",
+"text": {
+"mr": "तात्या टोपे",
+"en": "Tatya Tope"
+}
+},
+{
+"id": "C",
+"text": {
+"mr": "बाबासाहेब भावे",
+"en": "Babasaheb Bhave"
+}
+},
+{
+"id": "D",
+"text": {
+"mr": "खाजा नाईक",
+"en": "Khaja Naik"
+}
+}
+],
+"correctAnswer": "A",
+"explanation": {
+"mr": "साताऱ्याचे छत्रपती प्रतापसिंह यांचे राज्य डलहौसीने खालसा केल्यानंतर रंगो बापूजी गुप्ते लंडनला दाद मागण्यासाठी गेले होते. तेथून परतल्यावर त्यांनी १८५७ च्या उठावात साताऱ्यात ब्रिटिश सत्तेविरुद्ध गुप्त योजना आखून भिल्ल, रामोशी आणि कोळ्यांना संघटित केले.",
+"en": "Rango Bapuji Gupte traveled to London to appeal the annexation of Satara by Lord Dalhousie. Upon returning, he organized resistance during the 1857 revolt in Satara, uniting local Bhils, Ramoshis, and Kolis."
+}
+},
+{
+"questionId": "Q04",
+"questionType": "standard",
+"chapterId": "H-01",
+"difficulty": "Medium",
+"marks": 1,
+"question": {
+"mr": "महात्मा ज्योतिराव फुले यांनी सत्यशोधक समाजाची स्थापना कोणत्या दिवशी व कोठे केली?",
+"en": "On which date and where did Mahatma Jyotirao Phule establish the Satyashodhak Samaj?"
+},
+"options": [
+{
+"id": "A",
+"text": {
+"mr": "१ ऑगस्ट १८८० — मुंबई",
+"en": "1 August 1880 — Bombay"
+}
+},
+{
+"id": "B",
+"text": {
+"mr": "२४ सप्टेंबर १८७३ — पुणे",
+"en": "24 September 1873 — Pune"
+}
+},
+{
+"id": "C",
+"text": {
+"mr": "१२ जानेवारी १८६५ — सातारा",
+"en": "12 January 1865 — Satara"
+}
+},
+{
+"id": "D",
+"text": {
+"mr": "१४ एप्रिल १८७५ — नागपूर",
+"en": "14 April 1875 — Nagpur"
+}
+}
+],
+"correctAnswer": "B",
+"explanation": {
+"mr": "महात्मा ज्योतिराव फुले यांनी २४ सप्टेंबर १८७३ रोजी पुण्यात सत्यशोधक समाजाची स्थापना केली. शूद्र व अतिशूद्र समाजाला धार्मिक व सामाजिक शोषणातून मुक्त करणे, शिक्षणाचा प्रसार करणे आणि मध्यस्थांशिवाय ईश्वराची उपासना करणे हे या समाजाचे मुख्य ध्येय होते. 'सर्वसाक्षी जगत्पती । त्याला नकोच मध्यस्थी ॥' हे सत्यशोधक समाजाचे ब्रीदवाक्य होते.",
+"en": "Mahatma Jyotirao Phule established the Satyashodhak Samaj on 24 September 1873 in Pune. Its goal was to liberate marginalized classes from social exploitation, promote mass education, and eliminate religious intermediaries."
+}
+},
+{
+"questionId": "Q05",
+"questionType": "standard",
+"chapterId": "H-01",
+"difficulty": "Medium",
+"marks": 1,
+"question": {
+"mr": "राजा राममोहन रॉय यांच्या अथक प्रयत्नांमुळे कोणत्या ब्रिटिश गव्हर्नर-जनरलने १८२९ मध्ये सती प्रथा बंदीचा कायदा (Regulation XVII) संमत केला?",
+"en": "Due to relentless efforts of Raja Ram Mohan Roy, which British Governor-General enacted the law abolishing Sati (Regulation XVII) in 1829?"
+},
+"options": [
+{
+"id": "A",
+"text": {
+"mr": "लॉर्ड डलहौसी (Lord Dalhousie)",
+"en": "Lord Dalhousie"
+}
+},
+{
+"id": "B",
+"text": {
+"mr": "लॉर्ड कॅनिंग (Lord Canning)",
+"en": "Lord Canning"
+}
+},
+{
+"id": "C",
+"text": {
+"mr": "लॉर्ड विल्यम बेंटिक (Lord William Bentinck)",
+"en": "Lord William Bentinck"
+}
+},
+{
+"id": "D",
+"text": {
+"mr": "लॉर्ड कर्झन (Lord Curzon)",
+"en": "Lord Curzon"
+}
+}
+],
+"correctAnswer": "C",
+"explanation": {
+"mr": "राजा राममोहन रॉय यांनी सती प्रथेविरुद्ध व्यापक जनजागृती केली आणि प्राचीन धर्मग्रंथांचा दाखला देऊन ही अनिष्ट प्रथा सिद्ध केली. त्यांच्या प्रयत्नांची दखल घेऊन तत्कालीन गव्हर्नर-जनरल लॉर्ड विल्यम बेंटिक यांनी ४ डिसेंबर १८२९ रोजी बंगाल रेगुलेशन XVII अन्वये सती प्रथेला बेकायदेशीर व शिक्षेस पात्र घोषित केले.",
+"en": "Through rigorous public advocacy, Raja Ram Mohan Roy persuaded the British administration that Sati had no sanction in ancient Vedic texts. Governor-General Lord William Bentinck promulgated Bengal Regulation XVII on 4 December 1829, declaring Sati illegal and punishable."
+}
+}
+]
+}

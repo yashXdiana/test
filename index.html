@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="mr-IN" data-theme="light" data-font-size="medium">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>StudySphere — MPSC Group C 2026 Prelims + Mains Quiz Platform</title>
+
+  <!-- Google Fonts: Mukta for Marathi (Devanagari) & Latin Glyphs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Shared Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- Zero-Flicker Initialization for Theme & Font Size Tokens -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('studysphere_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        var savedSize = localStorage.getItem('studysphere_font_size') || 'medium';
+        document.documentElement.setAttribute('data-font-size', savedSize);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-page="home">
+
+  <!-- ==========================================================================
+       1. Header: Desktop & Mobile Adaptive (No Overflow on Mobile)
+       ========================================================================== -->
+  <header id="site-header" class="site-header" role="banner">
+    <div class="container header-container">
+      
+      <!-- Brand Logo & Identity -->
+      <div class="header-brand-wrap">
+        <a href="index.html" class="brand-link" aria-label="StudySphere Homepage">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+            <path d="M6 6h10"></path>
+            <path d="m9 11 2 2 4-4"></path>
+          </svg>
+          <span class="brand-name">StudySphere</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav id="site-navigation" class="site-nav" aria-label="Main Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="pages/about.html" class="nav-link">About</a>
+        <a href="pages/contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions-wrap">
+        <!-- Desktop-Only Action Buttons (Hidden on mobile to prevent overflow) -->
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram header-btn-telegram" aria-label="Join our Telegram Channel">
+          <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram</span>
+        </a>
+        <button type="button" class="btn btn-donate header-btn-donate" id="donate-btn">Donate Us</button>
+
+        <!-- Compact Controls: Visible on both Desktop and Mobile -->
+        <button type="button" class="btn-icon" id="font-size-btn" aria-label="Cycle Font Size" title="Font Size: Medium (click to cycle)">A</button>
+        <button type="button" class="btn-icon" id="theme-btn" aria-label="Toggle Dark or Light Mode" title="Toggle Dark or Light Mode">☾</button>
+        <button type="button" class="btn-icon mobile-menu-btn" id="mobile-drawer-toggle" aria-label="Open Navigation Menu" title="Open Navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       2. Mobile Navigation Drawer (Includes Telegram, Donate, & Side-by-Side Jump Buttons)
+       ========================================================================== -->
+  <div id="drawerOverlay" class="drawer-overlay" aria-hidden="true"></div>
+  <aside id="drawerMenu" class="mobile-drawer" role="dialog" aria-label="Mobile Navigation Menu" aria-modal="true" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-header">
+        <span class="drawer-title">StudySphere</span>
+        <button type="button" class="btn-icon drawer-close-btn" id="mobile-drawer-close" aria-label="Close Navigation Menu">✕</button>
+      </div>
+
+      <!-- Quick Navigation Buttons Side-by-Side inside Drawer -->
+      <div class="drawer-quick-nav-block">
+        <span class="drawer-section-label">त्वरित विभाग</span>
+        <div class="drawer-quick-nav-grid">
+          <button type="button" class="btn-drawer-quick-nav" data-target="prelims-section">पूर्व परीक्षा</button>
+          <button type="button" class="btn-drawer-quick-nav" data-target="mains-section">मुख्य परीक्षा</button>
+          <button type="button" class="btn-drawer-quick-nav" data-target="combine-quiz-section">Exam Simulator</button>
+        </div>
+      </div>
+
+      <!-- Primary Drawer Navigation Links -->
+      <nav class="drawer-nav" aria-label="Mobile Navigation Links">
+        <a href="index.html" class="drawer-link active">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Home</span>
+        </a>
+        <a href="pages/about.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <span>About</span>
+        </a>
+        <a href="pages/contact.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <!-- Drawer Actions: Telegram & Donate Us permanently visible on mobile -->
+      <div class="drawer-actions-block">
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="drawer-action-btn drawer-telegram-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram चॅनेल</span>
+        </a>
+
+        <button type="button" class="drawer-action-btn drawer-donate-btn" id="drawer-donate-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span>Donate Us (मदत करा)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       3. Main Content Landmark
+       ========================================================================== -->
+  <main id="main-content" class="main-content" role="main">
+    <div class="container">
+      
+      <!-- Hero / Introduction Section (Without Explore Subjects Button) -->
+      <section class="hero-section" aria-labelledby="hero-title">
+        <div class="hero-content">
+          <span class="hero-badge">MPSC Group C 2026</span>
+          <h1 id="hero-title" class="hero-title">Prelims + Mains Quiz Platform</h1>
+          <p class="hero-desc">
+            MPSC Group C 2026 परीक्षेच्या संपूर्ण तयारीसाठी एक शांत, जाहिरातमुक्त आणि दर्जेदार अभ्यास मंच. येथे Prelims आणि Mains परीक्षेसाठी विषयनिहाय सराव, घटकनिहाय चाचण्या व परिपूर्ण Mock Quizzes उपलब्ध आहेत.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section Navigation Dock: 3 Buttons Side-by-Side (Button 1 | Button 2 | Button 3) -->
+      <nav class="section-nav-wrapper" aria-label="Quick Section Navigation">
+        <div class="quick-nav-bar">
+          <button type="button" class="btn-quick-nav" data-target="prelims-section">
+            <span>पूर्व परीक्षा</span>
+          </button>
+          <button type="button" class="btn-quick-nav" data-target="mains-section">
+            <span>मुख्य परीक्षा</span>
+          </button>
+          <button type="button" class="btn-quick-nav" data-target="combine-quiz-section">
+            <span>Exam Simulator</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- ==========================================================================
+           Section 1: MPSC Group C 2026 — PRELIMS
+           ========================================================================== -->
+      <section class="study-section" id="prelims-section" aria-labelledby="prelims-heading">
+        <div class="section-header-block">
+          <h2 id="prelims-heading" class="section-heading">
+            <span class="heading-accent">MPSC Group C 2026 — PRELIMS</span>
+          </h2>
+          <p class="section-subheading">7 Official Subjects for Prelims Practice</p>
+        </div>
+
+        <div class="subject-grid">
+          <!-- 1. History -->
+          <a href="subjects/prelims/history.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                  <path d="M4 6h16"></path>
+                  <path d="M10 10h6"></path>
+                  <path d="M10 14h6"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">History</span>
+                <span class="subject-name-mr">इतिहास</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 2. Geography -->
+          <a href="subjects/prelims/geography.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                  <path d="M2 12h20"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">Geography</span>
+                <span class="subject-name-mr">भूगोल</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 3. Economics -->
+          <a href="subjects/prelims/economics.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">Economics</span>
+                <span class="subject-name-mr">अर्थशास्त्र</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 4. Polity & Civics -->
+          <a href="subjects/prelims/polity-civics.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">Polity &amp; Civics</span>
+                <span class="subject-name-mr">राज्यशास्त्र व नागरिकशास्त्र</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 5. General Science -->
+          <a href="subjects/prelims/general-science.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                  <path d="M8.5 2h7"></path>
+                  <path d="M7 16h10"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">General Science</span>
+                <span class="subject-name-mr">सामान्य विज्ञान</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 6. Current Affairs -->
+          <a href="subjects/prelims/current-affairs.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+                  <path d="M18 14h-8"></path>
+                  <path d="M15 18h-5"></path>
+                  <path d="M10 6h8v4h-8V6Z"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">Current Affairs</span>
+                <span class="subject-name-mr">चालू घडामोडी</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+
+          <!-- 7. Mental Ability & Arithmetic -->
+          <a href="subjects/prelims/mental-ability-arithmetic.html" class="subject-card">
+            <div class="subject-card-left">
+              <div class="subject-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                  <path d="M7 8h10"></path>
+                  <path d="M7 12h4"></path>
+                  <path d="M7 16h10"></path>
+                </svg>
+              </div>
+              <div class="subject-info">
+                <span class="subject-name-en">Mental Ability &amp; Arithmetic</span>
+                <span class="subject-name-mr">बुद्धिमत्ता व अंकगणित</span>
+              </div>
+            </div>
+            <span class="subject-card-arrow" aria-hidden="true">›</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           Section 2: MPSC Group C 2026 — MAINS
+           ========================================================================== -->
+      <section class="study-section" id="mains-section" aria-labelledby="mains-heading">
+        <div class="section-header-block">
+          <h2 id="mains-heading" class="section-heading">
+            <span class="heading-accent">MPSC Group C 2026 — MAINS</span>
+          </h2>
+          <p class="section-subheading">Paper 1 (Language) &amp; Paper 2 (GS &amp; Intelligence)</p>
+        </div>
+
+        <!-- Mains Paper 1: Language -->
+        <div class="mains-paper-group">
+          <div class="paper-header">
+            <h3 class="paper-title">Paper 1 — Language</h3>
+          </div>
+          <div class="subject-grid">
+            <!-- Marathi -->
+            <a href="subjects/mains/marathi.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m14 12-8.5 8.5a2.12 2.12 0 1 1-3-3L11 9"></path>
+                    <path d="M15 13 9 7l4-4 6 6h3a8 8 0 0 1-7 7z"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Marathi</span>
+                  <span class="subject-name-mr">मराठी</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- English -->
+            <a href="subjects/mains/english.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 7V4h16v3"></path>
+                    <path d="M9 20h6"></path>
+                    <path d="M12 4v16"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">English</span>
+                  <span class="subject-name-mr">इंग्रजी</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Mains Paper 2: General Studies & Intelligence -->
+        <div class="mains-paper-group">
+          <div class="paper-header">
+            <h3 class="paper-title">Paper 2 — General Studies &amp; Intelligence</h3>
+          </div>
+          <div class="subject-grid">
+            <!-- 1. History -->
+            <a href="subjects/mains/history.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                    <path d="M4 6h16"></path>
+                    <path d="M10 10h6"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">History</span>
+                  <span class="subject-name-mr">इतिहास</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 2. Geography -->
+            <a href="subjects/mains/geography.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path>
+                    <path d="M2 12h20"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Geography</span>
+                  <span class="subject-name-mr">भूगोल</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 3. Polity & Civics -->
+            <a href="subjects/mains/polity-civics.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Polity &amp; Civics</span>
+                  <span class="subject-name-mr">राज्यशास्त्र व नागरिकशास्त्र</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 4. Economics -->
+            <a href="subjects/mains/economics.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Economics</span>
+                  <span class="subject-name-mr">अर्थशास्त्र</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 5. General Science -->
+            <a href="subjects/mains/general-science.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 2v7.527a2 2 0 0 1-.211.896L4.72 20.55a1 1 0 0 0 .9 1.45h12.76a1 1 0 0 0 .9-1.45l-5.069-10.127A2 2 0 0 1 14 9.527V2"></path>
+                    <path d="M8.5 2h7"></path>
+                    <path d="M7 16h10"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">General Science</span>
+                  <span class="subject-name-mr">सामान्य विज्ञान</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 6. Current Affairs -->
+            <a href="subjects/mains/current-affairs.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"></path>
+                    <path d="M18 14h-8"></path>
+                    <path d="M15 18h-5"></path>
+                    <path d="M10 6h8v4h-8V6Z"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Current Affairs</span>
+                  <span class="subject-name-mr">चालू घडामोडी</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 7. Mental Ability & Arithmetic -->
+            <a href="subjects/mains/mental-ability-arithmetic.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="3" rx="2"></rect>
+                    <path d="M7 8h10"></path>
+                    <path d="M7 12h4"></path>
+                    <path d="M7 16h10"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Mental Ability &amp; Arithmetic</span>
+                  <span class="subject-name-mr">बुद्धिमत्ता व अंकगणित</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 8. Information Technology -->
+            <a href="subjects/mains/information-technology.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="3" rx="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Information Technology</span>
+                  <span class="subject-name-mr">माहिती तंत्रज्ञान</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 9. RTI Act & Maharashtra Right to Public Services Act -->
+            <a href="subjects/mains/rti-maharashtra-public-services.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">RTI Act &amp; Maharashtra Right to Public Services Act</span>
+                  <span class="subject-name-mr">माहिती अधिकार व लोकसेवा हक्क कायदा</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+
+            <!-- 10. Post-Specific Knowledge -->
+            <a href="subjects/mains/post-specific-knowledge.html" class="subject-card">
+              <div class="subject-card-left">
+                <div class="subject-icon-wrap" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="20" height="14" x="2" y="7" rx="2" ry="2"></rect>
+                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                  </svg>
+                </div>
+                <div class="subject-info">
+                  <span class="subject-name-en">Post-Specific Knowledge</span>
+                  <span class="subject-name-mr">पदानुसार विशेष ज्ञान</span>
+                </div>
+              </div>
+              <span class="subject-card-arrow" aria-hidden="true">›</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==========================================================================
+           Section 3: MPSC Group C 2026 — COMBINE QUIZ / Exam Simulator
+           ========================================================================== -->
+      <section class="study-section combine-section-container" id="combine-quiz-section" aria-labelledby="combine-quiz-heading">
+        <div class="section-header-block">
+          <h2 id="combine-quiz-heading" class="section-heading">
+            <span class="heading-accent">MPSC Group C 2026 — Exam Simulator</span>
+          </h2>
+          <p class="section-subheading">परीक्षेसारख्या वातावरणात संपूर्ण सराव चाचण्या (Exam-Simulation Mock Papers)</p>
+        </div>
+
+        <div class="combine-grid">
+          <!-- Card 1: Prelims Combine Quiz -->
+          <a href="quizzes/combine/prelims.html" class="combine-card">
+            <div class="combine-card-header">
+              <div class="combine-tag-wrap">
+                <span class="combine-tag">PRELIMS</span>
+                <span class="combine-badge-type">Full Test</span>
+              </div>
+              <span class="combine-marks-pill">100 Marks</span>
+            </div>
+            <div class="combine-card-body">
+              <h3 class="combine-title">MPSC Group C 2026 — PRELIMS Combine Quiz</h3>
+              <p class="combine-subtitle-mr">पूर्व परीक्षेसाठी १०० गुणांची संपूर्ण सराव प्रश्नपत्रिका</p>
+            </div>
+            <div class="combine-card-footer">
+              <span class="combine-action-label">Open Test Module</span>
+              <span class="combine-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+
+          <!-- Card 2: Mains Quiz -->
+          <a href="quizzes/combine/mains.html" class="combine-card">
+            <div class="combine-card-header">
+              <div class="combine-tag-wrap">
+                <span class="combine-tag">MAINS</span>
+                <span class="combine-badge-type">Full Test</span>
+              </div>
+              <span class="combine-marks-pill">200 Marks</span>
+            </div>
+            <div class="combine-card-body">
+              <h3 class="combine-title">MPSC Group C 2026 — MAINS Quiz</h3>
+              <p class="combine-subtitle-mr">मुख्य परीक्षेसाठी २०० गुणांची परिपूर्ण सराव चाचणी</p>
+            </div>
+            <div class="combine-card-footer">
+              <span class="combine-action-label">Open Test Module</span>
+              <span class="combine-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       4. Footer: Responsive Symmetrical Layout
+       ========================================================================== -->
+  <footer id="site-footer" class="site-footer" role="contentinfo">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-title">StudySphere</span>
+          <p class="footer-desc">MPSC Group C Prelims &amp; Mains Quiz Platform</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer Quick Links">
+          <a href="pages/about.html">About</a>
+          <a href="pages/contact.html">Contact</a>
+          <a href="pages/privacy-policy.html">Privacy Policy</a>
+          <a href="pages/terms.html">Terms &amp; Services</a>
+          <a href="pages/sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-actions">
+          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram footer-telegram-btn" aria-label="Telegram Channel">
+            <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width: 16px; height: 16px;">
+              <path d="m22 2-7 20-4-9-9-4Z"></path>
+              <path d="M22 2 11 13"></path>
+            </svg>
+            <span>Telegram</span>
+          </a>
+          <button type="button" class="btn btn-donate" id="footer-donate-btn">Donate Us</button>
+        </div>
+        <p class="footer-copyright">&copy; 2026 StudySphere. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       5. Donation Modal (Mobile View vs Desktop QR)
+       ========================================================================== -->
+  <div id="donationModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="donationModalTitle" class="modal-title">Support StudySphere</h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close Donation Dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          StudySphere हे MPSC विद्यार्थ्यांसाठी विनामूल्य शैक्षणिक सराव मंच आहे. आपले सहकार्य हे व्यासपीठ चालू ठेवण्यासाठी मदत करते.
+        </p>
+
+        <!-- Mobile Donation View (Presets + Input + Pay Now) -->
+        <div id="donateMobileView">
+          <div class="donate-presets">
+            <button type="button" class="btn-preset active" data-amount="50">₹50</button>
+            <button type="button" class="btn-preset" data-amount="100">₹100</button>
+            <button type="button" class="btn-preset" data-amount="200">₹200</button>
+          </div>
+          <div class="donate-input-group">
+            <label for="customAmountInput" class="donate-label">Custom Amount</label>
+            <div class="donate-input-wrap">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="customAmountInput" class="donate-input" placeholder="रक्कम टाका" min="1" step="1">
+            </div>
+            <p id="donateErrorMsg" class="donate-error-msg" role="alert">कृपया योग्य रक्कम प्रविष्ट करा.</p>
+          </div>
+          <button type="button" class="btn-pay-now" id="payNowBtn">Pay Now</button>
+        </div>
+
+        <!-- Desktop Donation View (Demo QR + Scan instruction, No Pay Now, No UPI ID displayed) -->
+        <div id="donateDesktopView" style="display: none;">
+          <div class="qr-container">
+            <div class="demo-qr-box" aria-label="Demo QR Code Area">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="6" height="6" x="3" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="15" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="3" y="15" rx="1"></rect>
+                <path d="M15 15h2v2h-2z"></path>
+                <path d="M19 15v4h-4"></path>
+                <path d="M15 19v2h4"></path>
+              </svg>
+              <span class="qr-caption">Demo Payment QR</span>
+            </div>
+            <p class="section-subheading">Scan QR and Donate</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       6. Thank You Appreciation Modal
+       ========================================================================== -->
+  <div id="thankYouModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="thankYouTitle" class="modal-title">Thank You</h3>
+        <button type="button" class="modal-close-btn" id="thankYouCloseBtn" aria-label="Close Appreciation Dialog">✕</button>
+      </div>
+      <div class="modal-body thankyou-box">
+        <div class="thankyou-icon" aria-hidden="true">✓</div>
+        <p class="modal-title" style="margin-bottom: 8px;">आपल्या सहकार्याबद्दल धन्यवाद</p>
+        <p class="modal-desc">
+          StudySphere ला भेट दिल्याबद्दल धन्यवाद. आपले सहकार्य विद्यार्थ्यांना दर्जेदार सराव साहित्य मोफत पुरवण्यासाठी मोलाचे आहे.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

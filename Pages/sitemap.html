@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="mr-IN" data-theme="light" data-font-size="medium">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>StudySphere — साइटमॅप</title>
+
+  <!-- Google Fonts: Mukta for Marathi (Devanagari) & Latin Glyphs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Shared Stylesheets -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/pages.css">
+
+  <!-- Zero-Flicker Initialization for Theme & Font Size Tokens -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('studysphere_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        var savedSize = localStorage.getItem('studysphere_font_size') || 'medium';
+        document.documentElement.setAttribute('data-font-size', savedSize);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-page="sitemap">
+
+  <!-- ==========================================================================
+       1. Header: Shared Responsive Layout
+       ========================================================================== -->
+  <header id="site-header" class="site-header" role="banner">
+    <div class="container header-container">
+      
+      <!-- Brand Logo & Identity -->
+      <div class="header-brand-wrap">
+        <a href="../index.html" class="brand-link" aria-label="StudySphere Homepage">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+            <path d="M6 6h10"></path>
+            <path d="m9 11 2 2 4-4"></path>
+          </svg>
+          <span class="brand-name">StudySphere</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav id="site-navigation" class="site-nav" aria-label="Main Navigation">
+        <a href="../index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions-wrap">
+        <!-- Desktop-Only Action Buttons -->
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram header-btn-telegram" aria-label="Join our Telegram Channel">
+          <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram</span>
+        </a>
+        <button type="button" class="btn btn-donate header-btn-donate" id="donate-btn">Donate Us</button>
+
+        <!-- Compact Controls -->
+        <button type="button" class="btn-icon" id="font-size-btn" aria-label="Cycle Font Size" title="Font Size: Medium (click to cycle)">A</button>
+        <button type="button" class="btn-icon" id="theme-btn" aria-label="Toggle Dark or Light Mode" title="Toggle Dark or Light Mode">☾</button>
+        <button type="button" class="btn-icon mobile-menu-btn" id="mobile-drawer-toggle" aria-label="Open Navigation Menu" title="Open Navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       2. Mobile Navigation Drawer
+       ========================================================================== -->
+  <div id="drawerOverlay" class="drawer-overlay" aria-hidden="true"></div>
+  <aside id="drawerMenu" class="mobile-drawer" role="dialog" aria-label="Mobile Navigation Menu" aria-modal="true" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-header">
+        <span class="drawer-title">StudySphere</span>
+        <button type="button" class="btn-icon drawer-close-btn" id="mobile-drawer-close" aria-label="Close Navigation Menu">✕</button>
+      </div>
+
+      <!-- Quick Navigation Buttons Side-by-Side inside Drawer -->
+      <div class="drawer-quick-nav-block">
+        <span class="drawer-section-label">त्वरित विभाग</span>
+        <div class="drawer-quick-nav-grid">
+          <button type="button" class="btn-drawer-quick-nav" data-target="../index.html#prelims-section">पूर्व परीक्षा</button>
+          <button type="button" class="btn-drawer-quick-nav" data-target="../index.html#mains-section">मुख्य परीक्षा</button>
+          <button type="button" class="btn-drawer-quick-nav" data-target="../index.html#combine-quiz-section">Exam Simulator</button>
+        </div>
+      </div>
+
+      <!-- Primary Drawer Navigation Links -->
+      <nav class="drawer-nav" aria-label="Mobile Navigation Links">
+        <a href="../index.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Home</span>
+        </a>
+        <a href="about.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <span>About</span>
+        </a>
+        <a href="contact.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <!-- Drawer Actions -->
+      <div class="drawer-actions-block">
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="drawer-action-btn drawer-telegram-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram चॅनेल</span>
+        </a>
+
+        <button type="button" class="drawer-action-btn drawer-donate-btn" id="drawer-donate-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span>Donate Us (मदत करा)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       3. Main Content Area (Framed Content Box)
+       ========================================================================== -->
+  <main id="main-content" class="main-content" role="main">
+    <div class="container">
+      
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="../index.html">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">साइटमॅप</span>
+      </nav>
+
+      <!-- Framed Card Box for Main Content -->
+      <div class="page-content-box">
+        <header class="page-intro-header">
+          <h1 class="page-title">साइटमॅप (Sitemap)</h1>
+          <p class="page-subtitle">StudySphere मंचावरील सर्व उपलब्ध पृष्ठांची व सराव परीक्षांची संपूर्ण रचना.</p>
+        </header>
+
+        <article class="page-prose sitemap-prose">
+          
+          <!-- 1. मुख्य पृष्ठ -->
+          <section class="sitemap-group">
+            <h2 class="sitemap-heading">१. मुख्य पृष्ठ</h2>
+            <ul class="sitemap-links">
+              <li><a href="../index.html">Home (मुख्य पान)</a></li>
+            </ul>
+          </section>
+
+          <!-- 2. माहिती पृष्ठे -->
+          <section class="sitemap-group">
+            <h2 class="sitemap-heading">२. माहिती पृष्ठे</h2>
+            <ul class="sitemap-links">
+              <li><a href="about.html">StudySphere बद्दल (About)</a></li>
+              <li><a href="contact.html">संपर्क (Contact)</a></li>
+              <li><a href="privacy-policy.html">गोपनीयता धोरण (Privacy Policy)</a></li>
+              <li><a href="terms.html">अटी व सेवा (Terms &amp; Services)</a></li>
+              <li><a href="sitemap.html">साइटमॅप (Sitemap)</a></li>
+            </ul>
+          </section>
+
+          <!-- 3. MPSC Group C 2026 — Prelims -->
+          <section class="sitemap-group">
+            <h2 class="sitemap-heading">३. MPSC Group C 2026 — PRELIMS (पूर्व परीक्षा विषय)</h2>
+            <ul class="sitemap-links">
+              <li><a href="../subjects/prelims/history.html">History — इतिहास</a></li>
+              <li><a href="../subjects/prelims/geography.html">Geography — भूगोल</a></li>
+              <li><a href="../subjects/prelims/economics.html">Economics — अर्थशास्त्र</a></li>
+              <li><a href="../subjects/prelims/polity-civics.html">Polity &amp; Civics — राज्यशास्त्र व नागरिकशास्त्र</a></li>
+              <li><a href="../subjects/prelims/general-science.html">General Science — सामान्य विज्ञान</a></li>
+              <li><a href="../subjects/prelims/current-affairs.html">Current Affairs — चालू घडामोडी</a></li>
+              <li><a href="../subjects/prelims/mental-ability-arithmetic.html">Mental Ability &amp; Arithmetic — बुद्धिमत्ता व अंकगणित</a></li>
+            </ul>
+          </section>
+
+          <!-- 4. MPSC Group C 2026 — Mains -->
+          <section class="sitemap-group">
+            <h2 class="sitemap-heading">४. MPSC Group C 2026 — MAINS (मुख्य परीक्षा विषय)</h2>
+            
+            <h3 class="sitemap-subheading">Paper 1 — Language</h3>
+            <ul class="sitemap-links">
+              <li><a href="../subjects/mains/marathi.html">Marathi — मराठी</a></li>
+              <li><a href="../subjects/mains/english.html">English — इंग्रजी</a></li>
+            </ul>
+
+            <h3 class="sitemap-subheading">Paper 2 — General Studies &amp; Intelligence</h3>
+            <ul class="sitemap-links">
+              <li><a href="../subjects/mains/history.html">History — इतिहास</a></li>
+              <li><a href="../subjects/mains/geography.html">Geography — भूगोल</a></li>
+              <li><a href="../subjects/mains/polity-civics.html">Polity &amp; Civics — राज्यशास्त्र व नागरिकशास्त्र</a></li>
+              <li><a href="../subjects/mains/economics.html">Economics — अर्थशास्त्र</a></li>
+              <li><a href="../subjects/mains/general-science.html">General Science — सामान्य विज्ञान</a></li>
+              <li><a href="../subjects/mains/current-affairs.html">Current Affairs — चालू घडामोडी</a></li>
+              <li><a href="../subjects/mains/mental-ability-arithmetic.html">Mental Ability &amp; Arithmetic — बुद्धिमत्ता व अंकगणित</a></li>
+              <li><a href="../subjects/mains/information-technology.html">Information Technology — माहिती तंत्रज्ञान</a></li>
+              <li><a href="../subjects/mains/rti-maharashtra-public-services.html">RTI Act &amp; Maharashtra Right to Public Services Act — माहिती अधिकार व लोकसेवा हक्क कायदा</a></li>
+              <li><a href="../subjects/mains/post-specific-knowledge.html">Post-Specific Knowledge — पदानुसार विशेष ज्ञान</a></li>
+            </ul>
+          </section>
+
+          <!-- 5. Combine Quiz -->
+          <section class="sitemap-group">
+            <h2 class="sitemap-heading">५. Combine Quiz (संपूर्ण सराव चाचण्या)</h2>
+            <ul class="sitemap-links">
+              <li><a href="../quizzes/combine/prelims.html">MPSC Group C 2026 — PRELIMS Combine Quiz (100 Marks)</a></li>
+              <li><a href="../quizzes/combine/mains.html">MPSC Group C 2026 — MAINS Quiz (200 Marks)</a></li>
+            </ul>
+          </section>
+
+        </article>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       4. Footer: Responsive Symmetrical Layout
+       ========================================================================== -->
+  <footer id="site-footer" class="site-footer" role="contentinfo">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-title">StudySphere</span>
+          <p class="footer-desc">MPSC Group C Prelims &amp; Mains Quiz Platform</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer Quick Links">
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+          <a href="privacy-policy.html">Privacy Policy</a>
+          <a href="terms.html">Terms &amp; Services</a>
+          <a href="sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-actions">
+          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram footer-telegram-btn" aria-label="Telegram Channel">
+            <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width: 16px; height: 16px;">
+              <path d="m22 2-7 20-4-9-9-4Z"></path>
+              <path d="M22 2 11 13"></path>
+            </svg>
+            <span>Telegram</span>
+          </a>
+          <button type="button" class="btn btn-donate" id="footer-donate-btn">Donate Us</button>
+        </div>
+        <p class="footer-copyright">&copy; 2026 StudySphere. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       5. Donation Modal
+       ========================================================================== -->
+  <div id="donationModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="donationModalTitle" class="modal-title">Support StudySphere</h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close Donation Dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          StudySphere हे MPSC विद्यार्थ्यांसाठी विनामूल्य शैक्षणिक सराव मंच आहे. आपले सहकार्य हे व्यासपीठ चालू ठेवण्यासाठी मदत करते.
+        </p>
+
+        <!-- Mobile Donation View -->
+        <div id="donateMobileView">
+          <div class="donate-presets">
+            <button type="button" class="btn-preset active" data-amount="50">₹50</button>
+            <button type="button" class="btn-preset" data-amount="100">₹100</button>
+            <button type="button" class="btn-preset" data-amount="200">₹200</button>
+          </div>
+          <div class="donate-input-group">
+            <label for="customAmountInput" class="donate-label">Custom Amount</label>
+            <div class="donate-input-wrap">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="customAmountInput" class="donate-input" placeholder="रक्कम टाका" min="1" step="1">
+            </div>
+            <p id="donateErrorMsg" class="donate-error-msg" role="alert">कृपया योग्य रक्कम प्रविष्ट करा.</p>
+          </div>
+          <button type="button" class="btn-pay-now" id="payNowBtn">Pay Now</button>
+        </div>
+
+        <!-- Desktop Donation View -->
+        <div id="donateDesktopView" style="display: none;">
+          <div class="qr-container">
+            <div class="demo-qr-box" aria-label="Demo QR Code Area">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="6" height="6" x="3" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="15" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="3" y="15" rx="1"></rect>
+                <path d="M15 15h2v2h-2z"></path>
+                <path d="M19 15v4h-4"></path>
+                <path d="M15 19v2h4"></path>
+              </svg>
+              <span class="qr-caption">Demo Payment QR</span>
+            </div>
+            <p class="section-subheading">Scan QR and Donate</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       6. Thank You Appreciation Modal
+       ========================================================================== -->
+  <div id="thankYouModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="thankYouTitle" class="modal-title">Thank You</h3>
+        <button type="button" class="modal-close-btn" id="thankYouCloseBtn" aria-label="Close Appreciation Dialog">✕</button>
+      </div>
+      <div class="modal-body thankyou-box">
+        <div class="thankyou-icon" aria-hidden="true">✓</div>
+        <p class="modal-title" style="margin-bottom: 8px;">आपल्या सहकार्याबद्दल धन्यवाद</p>
+        <p class="modal-desc">
+          StudySphere ला भेट दिल्याबद्दल धन्यवाद. आपले सहकार्य विद्यार्थ्यांना दर्जेदार सराव साहित्य विनामूल्य पुरवण्यासाठी मोलाचे आहे.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

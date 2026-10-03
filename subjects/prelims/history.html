@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="mr-IN" data-theme="light" data-font-size="medium">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>StudySphere — इतिहास (History) — Prelims</title>
+
+  <!-- Google Fonts: Mukta for Marathi (Devanagari) & Latin Glyphs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Core Shared Stylesheets (2 levels up from subjects/prelims/) -->
+  <link rel="stylesheet" href="../../assets/css/style.css">
+  <link rel="stylesheet" href="../../assets/css/pages.css">
+
+  <!-- Zero-Flicker Initialization for Theme & Font Size Tokens -->
+  <script>
+    (function () {
+      try {
+        var savedTheme = localStorage.getItem('studysphere_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        var savedSize = localStorage.getItem('studysphere_font_size') || 'medium';
+        document.documentElement.setAttribute('data-font-size', savedSize);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body data-page="subject" data-section="prelims" data-subject="history">
+
+  <!-- ==========================================================================
+       Header: Shared Master Responsive Header
+       ========================================================================== -->
+  <header id="site-header" class="site-header" role="banner">
+    <div class="container header-container">
+      
+      <!-- Brand Logo & Identity -->
+      <div class="header-brand-wrap">
+        <a href="../../index.html" class="brand-link" aria-label="StudySphere Homepage">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+            <path d="M6 6h10"></path>
+            <path d="m9 11 2 2 4-4"></path>
+          </svg>
+          <span class="brand-name">StudySphere</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation Links -->
+      <nav id="site-navigation" class="site-nav" aria-label="Main Navigation">
+        <a href="../../index.html" class="nav-link">Home</a>
+        <a href="../../pages/about.html" class="nav-link">About</a>
+        <a href="../../pages/contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Header Action Controls -->
+      <div class="header-actions-wrap">
+        <!-- Desktop-Only Action Buttons -->
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram header-btn-telegram" aria-label="Join our Telegram Channel">
+          <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram</span>
+        </a>
+        <button type="button" class="btn btn-donate header-btn-donate" id="donate-btn">Donate Us</button>
+
+        <!-- Compact Controls: Visible on both Desktop and Mobile -->
+        <button type="button" class="btn-icon" id="font-size-btn" aria-label="Cycle Font Size" title="Font Size: Medium (click to cycle)">A</button>
+        <button type="button" class="btn-icon" id="theme-btn" aria-label="Toggle Dark or Light Mode" title="Toggle Dark or Light Mode">☾</button>
+        <button type="button" class="btn-icon mobile-menu-btn" id="mobile-drawer-toggle" aria-label="Open Navigation Menu" title="Open Navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       Mobile Navigation Drawer
+       ========================================================================== -->
+  <div id="drawerOverlay" class="drawer-overlay" aria-hidden="true"></div>
+  <aside id="drawerMenu" class="mobile-drawer" role="dialog" aria-label="Mobile Navigation Menu" aria-modal="true" aria-hidden="true">
+    <div class="drawer-inner">
+      <div class="drawer-header">
+        <span class="drawer-title">StudySphere</span>
+        <button type="button" class="btn-icon drawer-close-btn" id="mobile-drawer-close" aria-label="Close Navigation Menu">✕</button>
+      </div>
+
+      <!-- Primary Drawer Navigation Links -->
+      <nav class="drawer-nav" aria-label="Mobile Navigation Links">
+        <a href="../../index.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          <span>Home</span>
+        </a>
+        <a href="../../pages/about.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
+          </svg>
+          <span>About</span>
+        </a>
+        <a href="../../pages/contact.html" class="drawer-link">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <span>Contact</span>
+        </a>
+      </nav>
+
+      <!-- Drawer Actions: Telegram & Donate Us -->
+      <div class="drawer-actions-block">
+        <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="drawer-action-btn drawer-telegram-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m22 2-7 20-4-9-9-4Z"></path>
+            <path d="M22 2 11 13"></path>
+          </svg>
+          <span>Telegram चॅनेल</span>
+        </a>
+
+        <button type="button" class="drawer-action-btn drawer-donate-btn" id="drawer-donate-btn">
+          <svg class="drawer-link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+          </svg>
+          <span>Donate Us (मदत करा)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==========================================================================
+       Main Subject Content Landmark
+       ========================================================================== -->
+  <main id="main-content" class="main-content" role="main">
+    <div class="container subject-page-container">
+      
+      <!-- ======================================================================
+           Section 1: Breadcrumb + Unified Subject Header Box
+           ====================================================================== -->
+      <!-- Breadcrumb Navigation -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="../../index.html">Home</a>
+        <span class="breadcrumb-separator">›</span>
+        <a href="../../index.html#prelims-section">Prelims</a>
+        <span class="breadcrumb-separator">›</span>
+        <span class="breadcrumb-current">इतिहास (History)</span>
+      </nav>
+
+      <!-- Main Unified Subject Header Card (Contains all 7 required items) -->
+      <header class="subject-header-card">
+        <div class="subject-header-top-row">
+          <div class="subject-header-meta-group">
+            <span class="subject-badge">MPSC Group C 2026 — PRELIMS</span>
+            <span class="subject-count-pill">12 Chapters</span>
+          </div>
+          <a href="../../index.html#prelims-section" class="btn-back-link" aria-label="Back to Prelims Section">
+            <span aria-hidden="true">←</span>
+            <span>Back to Prelims</span>
+          </a>
+        </div>
+
+        <div class="subject-header-main-row">
+          <div class="subject-header-titles">
+            <h1 class="subject-title-mr">इतिहास</h1>
+            <span class="subject-title-en">History</span>
+          </div>
+          <div class="subject-icon-box" aria-hidden="true">
+            <!-- Academic History Landmark / Open Archive SVG Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+              <path d="M4 6h16"></path>
+              <path d="M10 10h6"></path>
+              <path d="M10 14h6"></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="subject-header-desc-row">
+          <p class="subject-header-desc">
+            हा विभाग MPSC Group C 2026 संयुक्त पूर्व परीक्षेसाठी इतिहास विषयाच्या वस्तुनिष्ठ सराव चाचण्यांसाठी आहे. येथे संपूर्ण अभ्यासक्रमावरील मिश्र सराव प्रश्नपत्रिका (Mixed Quizzes) आणि सर्व १२ घटकांनुसार सराव उपलब्ध आहे.
+          </p>
+        </div>
+      </header>
+
+      <!-- ======================================================================
+           Section 2: Mixed Chapter Quiz (Featured Accordion)
+           ====================================================================== -->
+      <section class="featured-quiz-section" aria-labelledby="featured-quiz-heading">
+        <div class="accordion-item featured-quiz-accordion" id="accordion-mixed-quiz">
+          
+          <!-- Closed / Header Bar -->
+          <div class="accordion-header featured-quiz-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-mixed-quiz" id="header-mixed-quiz">
+            <div class="featured-header-left">
+              <div class="featured-icon-wrap" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <path d="m9 15 2 2 4-4"></path>
+                </svg>
+              </div>
+              <div class="featured-header-info">
+                <h2 id="featured-quiz-heading" class="featured-title-mr">इतिहास सराव Quiz</h2>
+                <div class="featured-tag-row">
+                  <span class="featured-tag">Practice Quiz</span>
+                  <span class="featured-subtag">Mixed Chapters</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="featured-header-right">
+              <span class="featured-btn-label">Quiz List</span>
+              <span class="accordion-chevron" aria-hidden="true">▼</span>
+            </div>
+          </div>
+
+          <!-- Collapsible Content Panel -->
+          <div class="accordion-panel" id="content-mixed-quiz" role="region" aria-labelledby="header-mixed-quiz">
+            <div class="accordion-panel-inner">
+              <div class="test-card-list">
+                
+                <!-- Demo Entry 1 (Links to live runner) -->
+                <article class="test-entry-card" data-quiz-id="H-CH01-001">
+                  <div class="test-entry-left">
+                    <span class="test-pill-number">Test 01</span>
+                    <div class="test-entry-info">
+                      <h3 class="test-entry-title">History Mixed Practice Test 01</h3>
+                      <div class="test-entry-meta">
+                        <span class="test-type-badge">Practice Quiz</span>
+                        <span class="test-meta-divider">•</span>
+                        <span class="test-meta-stats">5 Questions | 5 Marks | Medium | 5 Minutes</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="test-entry-right">
+                    <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test" aria-label="Start History Mixed Practice Test 01">
+                      <span>Start Quiz</span>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
+                </article>
+
+                <!-- Demo Entry 2 -->
+                <article class="test-entry-card" data-quiz-id="hist-mix-02">
+                  <div class="test-entry-left">
+                    <span class="test-pill-number">Test 02</span>
+                    <div class="test-entry-info">
+                      <h3 class="test-entry-title">History Mixed Practice Test 02</h3>
+                      <div class="test-entry-meta">
+                        <span class="test-type-badge">Practice Quiz</span>
+                        <span class="test-meta-divider">•</span>
+                        <span class="test-meta-stats">20 Questions | 20 Marks | Hard | 15 Minutes</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="test-entry-right">
+                    <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test" aria-label="Start History Mixed Practice Test 02">
+                      <span>Start Quiz</span>
+                      <span aria-hidden="true">→</span>
+                    </a>
+                  </div>
+                </article>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           Section 3: Chapter List (Single Accordion System)
+           ====================================================================== -->
+      <section class="chapter-accordion-section" aria-labelledby="chapter-list-heading">
+        <div class="chapter-section-header">
+          <div class="chapter-header-title-wrap">
+            <h2 id="chapter-list-heading" class="chapter-main-heading">अध्याय सूची</h2>
+            <span class="chapter-sub-heading">Chapter List</span>
+          </div>
+          <span class="chapter-total-badge">12 Chapters</span>
+        </div>
+
+        <div class="chapter-accordion-container" id="chapterAccordionGroup">
+
+          <!-- Chapter 01 (Contains Test 01 linking to live runner) -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-01">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-01" id="header-ch-01">
+              <div class="chapter-header-left">
+                <span class="chapter-index">01</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">आधुनिक भारताचा इतिहास</span>
+                  <span class="chapter-title-en">Modern Indian History</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-01" role="region" aria-labelledby="header-ch-01">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="H-CH01-001">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Modern India — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">5 Questions | 5 Marks | Medium | 5 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test" aria-label="Start Modern India Practice Test 01">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+
+                  <article class="test-entry-card" data-quiz-id="hist-ch01-02">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 02</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Modern India — Practice Test 02</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">25 Questions | 25 Marks | Hard | 20 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test" aria-label="Start Modern India Practice Test 02">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 02 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-02">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-02" id="header-ch-02">
+              <div class="chapter-header-left">
+                <span class="chapter-index">02</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">भारतातील ब्रिटिश सत्तेचा विस्तार व प्रशासन</span>
+                  <span class="chapter-title-en">British Rule in India</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-02" role="region" aria-labelledby="header-ch-02">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch02-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">British Rule in India — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 03 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-03">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-03" id="header-ch-03">
+              <div class="chapter-header-left">
+                <span class="chapter-index">03</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">१८५७ चा उठाव</span>
+                  <span class="chapter-title-en">Revolt of 1857</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-03" role="region" aria-labelledby="header-ch-03">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch03-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Revolt of 1857 — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 04 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-04">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-04" id="header-ch-04">
+              <div class="chapter-header-left">
+                <span class="chapter-index">04</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">सामाजिक व धार्मिक सुधारणा चळवळी</span>
+                  <span class="chapter-title-en">Social and Religious Reform Movements</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-04" role="region" aria-labelledby="header-ch-04">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch04-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Social and Religious Reforms — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 05 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-05">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-05" id="header-ch-05">
+              <div class="chapter-header-left">
+                <span class="chapter-index">05</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">शेतकरी व आदिवासी चळवळी</span>
+                  <span class="chapter-title-en">Peasant and Tribal Movements</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-05" role="region" aria-labelledby="header-ch-05">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch05-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Peasant and Tribal Movements — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 06 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-06">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-06" id="header-ch-06">
+              <div class="chapter-header-left">
+                <span class="chapter-index">06</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">भारतीय राष्ट्रवादाचा उदय</span>
+                  <span class="chapter-title-en">Rise of Indian Nationalism</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-06" role="region" aria-labelledby="header-ch-06">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch06-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Rise of Indian Nationalism — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 07 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-07">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-07" id="header-ch-07">
+              <div class="chapter-header-left">
+                <span class="chapter-index">07</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">भारतीय राष्ट्रीय चळवळ</span>
+                  <span class="chapter-title-en">Indian National Movement</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-07" role="region" aria-labelledby="header-ch-07">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch07-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Indian National Movement — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 08 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-08">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-08" id="header-ch-08">
+              <div class="chapter-header-left">
+                <span class="chapter-index">08</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">स्वातंत्र्य चळवळ व स्वातंत्र्यप्राप्ती</span>
+                  <span class="chapter-title-en">Freedom Movement and Independence</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-08" role="region" aria-labelledby="header-ch-08">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch08-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Freedom Movement — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 09 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-09">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-09" id="header-ch-09">
+              <div class="chapter-header-left">
+                <span class="chapter-index">09</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">महाराष्ट्राचा इतिहास</span>
+                  <span class="chapter-title-en">History of Maharashtra</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-09" role="region" aria-labelledby="header-ch-09">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch09-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">History of Maharashtra — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 10 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-10">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-10" id="header-ch-10">
+              <div class="chapter-header-left">
+                <span class="chapter-index">10</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">महाराष्ट्रातील सामाजिक सुधारणा चळवळी</span>
+                  <span class="chapter-title-en">Social Reform Movements in Maharashtra</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-10" role="region" aria-labelledby="header-ch-10">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch10-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Maharashtra Social Reforms — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 11 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-11">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-11" id="header-ch-11">
+              <div class="chapter-header-left">
+                <span class="chapter-index">11</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">महाराष्ट्रातील प्रमुख व्यक्तिमत्त्वे</span>
+                  <span class="chapter-title-en">Important Personalities of Maharashtra</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-11" role="region" aria-labelledby="header-ch-11">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch11-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Personalities of Maharashtra — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chapter 12 -->
+          <div class="accordion-item chapter-accordion-item" id="accordion-ch-12">
+            <div class="accordion-header chapter-accordion-header" role="button" tabindex="0" aria-expanded="false" aria-controls="content-ch-12" id="header-ch-12">
+              <div class="chapter-header-left">
+                <span class="chapter-index">12</span>
+                <div class="chapter-title-group">
+                  <span class="chapter-title-mr">महाराष्ट्रातील महत्त्वाच्या ऐतिहासिक घटना व घडामोडी</span>
+                  <span class="chapter-title-en">Important Historical Events and Developments in Maharashtra</span>
+                </div>
+              </div>
+              <div class="chapter-header-right">
+                <span class="accordion-chevron" aria-hidden="true">▼</span>
+              </div>
+            </div>
+            <div class="accordion-panel" id="content-ch-12" role="region" aria-labelledby="header-ch-12">
+              <div class="accordion-panel-inner">
+                <div class="test-card-list">
+                  <article class="test-entry-card" data-quiz-id="hist-ch12-01">
+                    <div class="test-entry-left">
+                      <span class="test-pill-number">Test 01</span>
+                      <div class="test-entry-info">
+                        <h3 class="test-entry-title">Historical Events in Maharashtra — Practice Test 01</h3>
+                        <div class="test-entry-meta">
+                          <span class="test-type-badge">Practice Quiz</span>
+                          <span class="test-meta-divider">•</span>
+                          <span class="test-meta-stats">20 Questions | 20 Marks | Medium | 15 Minutes</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="test-entry-right">
+                      <a href="../../quiz/index.html?quiz=H-CH01-001" class="btn-start-test">
+                        <span>Start Quiz</span>
+                        <span aria-hidden="true">→</span>
+                      </a>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       Footer: Shared Responsive Layout
+       ========================================================================== -->
+  <footer id="site-footer" class="site-footer" role="contentinfo">
+    <div class="container footer-container">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <span class="footer-title">StudySphere</span>
+          <p class="footer-desc">MPSC Group C Prelims &amp; Mains Quiz Platform</p>
+        </div>
+        <nav class="footer-nav" aria-label="Footer Quick Links">
+          <a href="../../pages/about.html">About</a>
+          <a href="../../pages/contact.html">Contact</a>
+          <a href="../../pages/privacy-policy.html">Privacy Policy</a>
+          <a href="../../pages/terms.html">Terms &amp; Services</a>
+          <a href="../../pages/sitemap.html">Sitemap</a>
+        </nav>
+      </div>
+      <div class="footer-bottom">
+        <div class="footer-actions">
+          <a href="https://t.me/MPSCstudysphere" target="_blank" rel="noopener noreferrer" class="btn btn-telegram footer-telegram-btn" aria-label="Telegram Channel">
+            <svg class="btn-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="width: 16px; height: 16px;">
+              <path d="m22 2-7 20-4-9-9-4Z"></path>
+              <path d="M22 2 11 13"></path>
+            </svg>
+            <span>Telegram</span>
+          </a>
+          <button type="button" class="btn btn-donate" id="footer-donate-btn">Donate Us</button>
+        </div>
+        <p class="footer-copyright">&copy; 2026 StudySphere. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       Donation Modal
+       ========================================================================== -->
+  <div id="donationModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="donationModalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="donationModalTitle" class="modal-title">Support StudySphere</h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close Donation Dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          StudySphere हे MPSC विद्यार्थ्यांसाठी विनामूल्य शैक्षणिक सराव मंच आहे. आपले सहकार्य हे व्यासपीठ चालू ठेवण्यासाठी मदत करते.
+        </p>
+
+        <!-- Mobile Donation View -->
+        <div id="donateMobileView">
+          <div class="donate-presets">
+            <button type="button" class="btn-preset active" data-amount="50">₹50</button>
+            <button type="button" class="btn-preset" data-amount="100">₹100</button>
+            <button type="button" class="btn-preset" data-amount="200">₹200</button>
+          </div>
+          <div class="donate-input-group">
+            <label for="customAmountInput" class="donate-label">Custom Amount</label>
+            <div class="donate-input-wrap">
+              <span class="currency-symbol">₹</span>
+              <input type="number" id="customAmountInput" class="donate-input" placeholder="रक्कम टाका" min="1" step="1">
+            </div>
+            <p id="donateErrorMsg" class="donate-error-msg" role="alert">कृपया योग्य रक्कम प्रविष्ट करा.</p>
+          </div>
+          <button type="button" class="btn-pay-now" id="payNowBtn">Pay Now</button>
+        </div>
+
+        <!-- Desktop Donation View -->
+        <div id="donateDesktopView" style="display: none;">
+          <div class="qr-container">
+            <div class="demo-qr-box" aria-label="Demo QR Code Area">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="6" height="6" x="3" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="15" y="3" rx="1"></rect>
+                <rect width="6" height="6" x="3" y="15" rx="1"></rect>
+                <path d="M15 15h2v2h-2z"></path>
+                <path d="M19 15v4h-4"></path>
+                <path d="M15 19v2h4"></path>
+              </svg>
+              <span class="qr-caption">Demo Payment QR</span>
+            </div>
+            <p class="section-subheading">Scan QR and Donate</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       Thank You Appreciation Modal
+       ========================================================================== -->
+  <div id="thankYouModal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="thankYouTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="thankYouTitle" class="modal-title">Thank You</h3>
+        <button type="button" class="modal-close-btn" id="thankYouCloseBtn" aria-label="Close Appreciation Dialog">✕</button>
+      </div>
+      <div class="modal-body thankyou-box">
+        <div class="thankyou-icon" aria-hidden="true">✓</div>
+        <p class="modal-title" style="margin-bottom: 8px;">आपल्या सहकार्याबद्दल धन्यवाद</p>
+        <p class="modal-desc">
+          StudySphere ला भेट दिल्याबद्दल धन्यवाद. आपले सहकार्य विद्यार्थ्यांना दर्जेदार सराव साहित्य विनामूल्य पुरवण्यासाठी मोलाचे आहे.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Core Main Script -->
+  <script src="../../assets/js/main.js"></script>
+
+  <!-- ==========================================================================
+       Unified Single-Accordion Controller
+       ========================================================================== -->
+  <script>
+    (function () {
+      'use strict';
+
+      function initSubjectAccordionSystem() {
+        var allAccordionItems = document.querySelectorAll('.accordion-item');
+
+        allAccordionItems.forEach(function (item) {
+          var header = item.querySelector('.accordion-header');
+          if (!header) return;
+
+          function handleToggle(e) {
+            if (e.type === 'keydown' && e.key !== 'Enter' && e.key !== ' ') {
+              return;
+            }
+            if (e.preventDefault) e.preventDefault();
+
+            var isCurrentlyOpen = item.classList.contains('is-open');
+
+            allAccordionItems.forEach(function (otherItem) {
+              if (otherItem !== item) {
+                otherItem.classList.remove('is-open');
+                var otherHeader = otherItem.querySelector('.accordion-header');
+                if (otherHeader) {
+                  otherHeader.setAttribute('aria-expanded', 'false');
+                }
+              }
+            });
+
+            if (isCurrentlyOpen) {
+              item.classList.remove('is-open');
+              header.setAttribute('aria-expanded', 'false');
+            } else {
+              item.classList.add('is-open');
+              header.setAttribute('aria-expanded', 'true');
+            }
+          }
+
+          header.addEventListener('click', handleToggle);
+          header.addEventListener('keydown', handleToggle);
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSubjectAccordionSystem);
+      } else {
+        initSubjectAccordionSystem();
+      }
+    })();
+  </script>
+</body>
+</html>
