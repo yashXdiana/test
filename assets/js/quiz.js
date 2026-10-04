@@ -1,20 +1,28 @@
 /**
  * StudySphere — Standalone Quiz Engine Controller (assets/js/quiz.js)
- * Updates & Corrections:
- *   1. Auto-next upon answer selection with clean, jump-free rendering.
- *   2. Auto-next upon Mark for Review.
- *   3. Strict zero-scroll guarantee on question selection (viewport-contained).
- *   4. Mobile Context Header synchronization.
- *   5. Mobile bottom control bar non-overflowing two-tier fit.
- *   6. Prefilled Telegram reporting URL intent with preloaded message compose body.
- *   7. Strictly empty initial answers.
+ * Revisions Applied:
+ *   1. Final Question Reporting System powered by Google Sheets & Apps Script Web App.
+ *      - Direct endpoint integration without Telegram.
+ *      - Automatic question identification, issue dropdown, optional details.
+ *      - Duplicate click prevention, auto-closing on success, and "Reported" state tracking.
+ *   2. Manual step progression (NO auto-next upon answer selection).
+ *   3. Manual step progression (NO auto-next upon Mark for Review).
+ *   4. Strictly zero pre-selected answers on fresh start (Q1 starts empty).
+ *   5. Zero unwanted scrolling — stable viewport without document movement.
+ *   6. Clean pure white background (#FFFFFF) for question card and options.
+ *   7. Compact mobile padding and safe line wrapping.
+ *   8. 3-row mobile context header with subject & chapter details.
+ *   9. Left-side mobile question palette drawer (55vw).
+ *  10. Non-overflowing 2-tier fixed bottom controls.
+ *  11. Advanced MPSC Exam Performance Analysis result page (SVG donut chart,
+ *      real-time analytics, chapter-wise breakdown, and per-question reports).
  */
 
 (function () {
   'use strict';
 
-  // Configurable Reporting Destination (MPSCstudysphere Telegram channel)
-  var REPORT_TELEGRAM_USERNAME = 'MPSCstudysphere';
+  // Configured Google Apps Script Web App Endpoint for StudySphere Question Reports
+  var REPORT_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXR7L9lMGyh7NTj-dEzI_OcudYEHg_a12VZNkA8RVIpSZV_oRSFkZpSYlIzeDDx6vRPQ/exec';
 
   // State Store
   var quizData = null;
@@ -27,12 +35,18 @@
   var isSubmitted = false;
   var currentFontSize = 'small'; // Default: small
 
-  var FONT_SIZES = ['small', 'medium', 'large'];
-  var STORAGE_KEY_PREFIX = 'studysphere_quiz_state_';
-  var FONT_STORAGE_KEY = 'studysphere_quiz_font_size';
+  // Real per-question time tracking
+  var questionTimeSpent = {}; // { questionId: seconds }
+  var lastQuestionTimestamp = 0;
 
-  // Active question payload being reported
+  // Question Reporting State
+  var reportedQuestions = {}; // { questionId: true }
   var activeReportPayload = null;
+  var isSubmittingReport = false;
+
+  var FONT_SIZES = ['small', 'medium', 'large'];
+  var STORAGE_KEY_PREFIX = 'studysphere_quiz_state_v3_';
+  var FONT_STORAGE_KEY = 'studysphere_quiz_font_size';
 
   // DOM Elements Cache
   var els = {};
@@ -112,6 +126,7 @@
         restoreOrInitState(quizId);
         renderHeaderInfo();
         startTimer();
+        lastQuestionTimestamp = Date.now();
         renderQuestion(currentQuestionIndex);
         renderPaletteGrids();
       })
@@ -137,7 +152,7 @@
       if (saved && FONT_SIZES.indexOf(saved) !== -1) {
         currentFontSize = saved;
       } else {
-        currentFontSize = 'small'; // Strict default
+        currentFontSize = 'small'; // Strict default: Small
       }
     } catch (e) {
       currentFontSize = 'small';
@@ -181,18 +196,21 @@
       if (item) savedState = JSON.parse(item);
     } catch (e) {}
 
-    // Clean old demo states that might have had pre-selected answers
     if (savedState && !savedState.isSubmitted && savedState.remainingSeconds > 0) {
       currentQuestionIndex = savedState.currentQuestionIndex || 0;
-      selectedAnswers = savedState.selectedAnswers || {}; // only user-clicked answers
+      selectedAnswers = savedState.selectedAnswers || {};
       markedQuestions = savedState.markedQuestions || {};
       visitedQuestions = savedState.visitedQuestions || {};
+      questionTimeSpent = savedState.questionTimeSpent || {};
       remainingSeconds = savedState.remainingSeconds;
+      reportedQuestions = savedState.reportedQuestions || {};
     } else {
       currentQuestionIndex = 0;
       selectedAnswers = {}; // STRICTLY EMPTY: Question 1 starts unanswered
       markedQuestions = {};
       visitedQuestions = {};
+      questionTimeSpent = {};
+      reportedQuestions = {};
       remainingSeconds = (quizData.durationMinutes || 5) * 60;
     }
 
@@ -203,18 +221,32 @@
 
   function persistState() {
     if (isSubmitted || !quizData) return;
+    recordCurrentQuestionTime();
     var state = {
       quizId: quizData.quizId,
       currentQuestionIndex: currentQuestionIndex,
       selectedAnswers: selectedAnswers,
       markedQuestions: markedQuestions,
       visitedQuestions: visitedQuestions,
+      questionTimeSpent: questionTimeSpent,
+      reportedQuestions: reportedQuestions,
       remainingSeconds: remainingSeconds,
       isSubmitted: false
     };
     try {
       localStorage.setItem(getStorageKey(), JSON.stringify(state));
     } catch (e) {}
+  }
+
+  function recordCurrentQuestionTime() {
+    if (!quizData || !quizData.questions[currentQuestionIndex]) return;
+    var qId = quizData.questions[currentQuestionIndex].questionId;
+    var now = Date.now();
+    var elapsedSeconds = Math.round((now - lastQuestionTimestamp) / 1000);
+    if (elapsedSeconds > 0) {
+      questionTimeSpent[qId] = (questionTimeSpent[qId] || 0) + elapsedSeconds;
+    }
+    lastQuestionTimestamp = now;
   }
 
   function clearActiveState() {
@@ -286,10 +318,11 @@
   }
 
   /* ==========================================================================
-     5. Unified Question & Options Rendering (Zero-Scroll Jump)
+     5. Unified Question & Options Rendering (Clean Pure White Background)
      ========================================================================== */
   function renderQuestion(index) {
     if (!quizData || !quizData.questions[index]) return;
+    recordCurrentQuestionTime();
     currentQuestionIndex = index;
     var q = quizData.questions[index];
 
@@ -303,14 +336,19 @@
     var qNumFormatted = (index + 1 < 10 ? '0' : '') + (index + 1);
     var currentAnswer = selectedAnswers[q.questionId];
 
-    // Construct ONE Common Card Box
+    // Construct ONE Common Pure White Card Box (#FFFFFF)
     var html = '';
     html += '<div class="quiz-unified-box">';
 
-    // Question Header Meta
+    // Question Header Meta with In-Quiz Report Trigger
     html += '  <div class="question-header-meta">';
     html += '    <span class="question-number-tag">प्रश्न ' + qNumFormatted + ' / ' + total + '</span>';
-    html += '    <span class="marks-pill-tag">गुण: ' + (q.marks || 1) + ' | उणे: ' + (quizData.negativeMarkingPerWrong || 0.25) + '</span>';
+    html += '    <div style="display:flex; align-items:center; gap:8px;">';
+    html += '      <span class="marks-pill-tag">गुण: ' + (q.marks || 1) + ' | उणे: ' + (quizData.negativeMarkingPerWrong || 0.25) + '</span>';
+    html += '      <button type="button" class="btn-report-active-q ' + (reportedQuestions[q.questionId] ? 'is-reported' : '') + '" id="btnReportActiveQuestion" title="Report This Question">';
+    html += '        <span>🚩</span> <span>' + (reportedQuestions[q.questionId] ? 'Reported' : 'Report') + '</span>';
+    html += '      </button>';
+    html += '    </div>';
     html += '  </div>';
 
     // Question Texts
@@ -373,50 +411,54 @@
       els.questionViewport.scrollTop = 0;
     }
 
-    // Bind Option Selection with Auto-Next
+    // Bind Option Selection — MANUAL PROGRESSION (Remains on same question)
     var optionCards = els.questionContent.querySelectorAll('.option-card-row');
     optionCards.forEach(function (card) {
       function choose(e) {
         if (e && e.preventDefault) e.preventDefault();
         var optId = card.getAttribute('data-option-id');
-        handleOptionSelectWithAutoNext(q.questionId, optId, card);
+        handleOptionSelectManual(q.questionId, optId, card);
       }
       card.addEventListener('click', choose);
     });
 
+    // Bind Active Question Report Button
+    var btnActiveReport = document.getElementById('btnReportActiveQuestion');
+    if (btnActiveReport) {
+      btnActiveReport.addEventListener('click', function () {
+        triggerReportForQuestion(index);
+      });
+    }
+
     renderPaletteGrids();
   }
 
   /* ==========================================================================
-     6. Auto-Next on Answer Selection (Zero Scroll Jump)
+     6. Manual Answer Selection (REMAINS ON SAME QUESTION — Zero Jump/Scroll)
      ========================================================================== */
-  function handleOptionSelectWithAutoNext(questionId, optionId, cardElement) {
+  function handleOptionSelectManual(questionId, optionId, cardElement) {
     selectedAnswers[questionId] = optionId;
     persistState();
 
-    // Tactile immediate visual response
+    // Visual immediate tactile selection update
     var allCards = els.questionContent.querySelectorAll('.option-card-row');
-    allCards.forEach(function (c) { c.classList.remove('is-selected'); });
-    if (cardElement) cardElement.classList.add('is-selected');
+    allCards.forEach(function (c) {
+      c.classList.remove('is-selected');
+      c.setAttribute('aria-checked', 'false');
+    });
 
+    if (cardElement) {
+      cardElement.classList.add('is-selected');
+      cardElement.setAttribute('aria-checked', 'true');
+    }
+
+    // Update Palette immediately to 'Answered'
     renderPaletteGrids();
-
-    var isLast = currentQuestionIndex === quizData.questions.length - 1;
-
-    setTimeout(function () {
-      if (isLast) {
-        // Last question: update footer controls & trigger submit flow
-        updateNavigationControls();
-        openSubmitModal();
-      } else {
-        // Automatically advance to next question
-        renderQuestion(currentQuestionIndex + 1);
-      }
-    }, 180);
+    updateNavigationControls();
   }
 
   /* ==========================================================================
-     7. Auto-Next on Mark for Review
+     7. Manual Mark for Review (REMAINS ON CURRENT QUESTION)
      ========================================================================== */
   function updateFooterMarkReviewState(questionId) {
     if (!els.markReviewBtn) return;
@@ -433,7 +475,7 @@
     }
   }
 
-  function toggleCurrentMarkReviewAndAdvance() {
+  function toggleCurrentMarkReviewManual() {
     if (!quizData || !quizData.questions[currentQuestionIndex]) return;
     var qId = quizData.questions[currentQuestionIndex].questionId;
 
@@ -446,17 +488,6 @@
     updateFooterMarkReviewState(qId);
     persistState();
     renderPaletteGrids();
-
-    var isLast = currentQuestionIndex === quizData.questions.length - 1;
-
-    setTimeout(function () {
-      if (isLast) {
-        updateNavigationControls();
-        openSubmitModal();
-      } else {
-        renderQuestion(currentQuestionIndex + 1);
-      }
-    }, 150);
   }
 
   /* ==========================================================================
@@ -603,9 +634,10 @@
   }
 
   /* ==========================================================================
-     10. Result Screen & Detailed Review
+     10. MPSC Exam Performance Analysis Result Page
      ========================================================================== */
   function executeSubmission(wasTimeout) {
+    recordCurrentQuestionTime();
     clearInterval(timerInterval);
     isSubmitted = true;
     clearActiveState();
@@ -618,14 +650,35 @@
     var wrongCount = 0;
     var unansweredCount = 0;
 
+    // Track chapter performance
+    var chapterStats = {};
+
     quizData.questions.forEach(function (q) {
+      var chId = q.chapterId || quizData.chapterId || 'H-01';
+      var chName = quizData.chapterNameMr || 'आधुनिक भारताचा इतिहास';
+
+      if (!chapterStats[chId]) {
+        chapterStats[chId] = {
+          name: chName,
+          total: 0,
+          attempted: 0,
+          correct: 0,
+          wrong: 0
+        };
+      }
+      chapterStats[chId].total++;
+
       var userAns = selectedAnswers[q.questionId];
       if (!userAns) {
         unansweredCount++;
       } else if (userAns === q.correctAnswer) {
         correctCount++;
+        chapterStats[chId].attempted++;
+        chapterStats[chId].correct++;
       } else {
         wrongCount++;
+        chapterStats[chId].attempted++;
+        chapterStats[chId].wrong++;
       }
     });
 
@@ -646,6 +699,10 @@
     var secsTaken = timeTakenSeconds % 60;
     var timeTakenFormatted = minsTaken + ' min ' + (secsTaken < 10 ? '0' : '') + secsTaken + ' sec';
 
+    var avgTimePerQ = (totalQuestions > 0)
+      ? Math.round(timeTakenSeconds / totalQuestions)
+      : 0;
+
     renderResultScreen({
       score: finalScore,
       totalMarks: totalMarks,
@@ -656,6 +713,8 @@
       accuracy: accuracy,
       negativeDeduction: negativeMarksTotal,
       timeTaken: timeTakenFormatted,
+      avgTimePerQ: avgTimePerQ,
+      chapterStats: chapterStats,
       wasTimeout: wasTimeout
     });
   }
@@ -666,43 +725,139 @@
 
     if (els.timerPill) els.timerPill.style.display = 'none';
     if (els.mobileTimerPill) els.mobileTimerPill.style.display = 'none';
-    if (els.counterCenter) els.counterCenter.textContent = 'निकाल (Result)';
-    if (els.mobileCounter) els.mobileCounter.textContent = 'निकाल (Result)';
+    if (els.counterCenter) els.counterCenter.textContent = 'MPSC परीक्षा विश्लेषण';
+    if (els.mobileCounter) els.mobileCounter.textContent = 'परीक्षा विश्लेषण';
 
     var html = '';
     html += '<div class="result-viewport-scroll">';
     html += '  <div class="result-card-container">';
 
-    // Score Card
+    // 1. Prominent Score Summary Banner
     html += '    <div class="score-hero-card">';
-    html += '      <span class="score-badge-label">MPSC Group C 2026 • सराव चाचणी निकाल</span>';
+    html += '      <span class="score-badge-label">MPSC Group C 2026 • चाचणी विश्लेषण अहवाल</span>';
     html += '      <div class="score-numbers-main">' + results.score + ' <span class="score-fraction-sub">/ ' + results.totalMarks + '</span></div>';
-    html += '      <p style="font-size:0.9rem; color:var(--quiz-text-muted); margin:4px 0 0;">' + (results.percentage >= 60 ? 'उत्कृष्ट कामगिरी! सराव असाच सुरू ठेवा.' : 'चांगला प्रयत्न! चुकीच्या प्रश्नांचे पुनरावलोकन करून सुधारणा करा.') + '</p>';
+    html += '      <div><span class="score-percentage-tag">' + results.percentage + '% गुण (Score)</span></div>';
+    html += '      <p style="font-size:0.85rem; color:var(--quiz-text-muted); margin:6px 0 0;">' + (results.percentage >= 60 ? 'उत्कृष्ट कामगिरी! सराव असाच सुरू ठेवा.' : 'चांगला प्रयत्न! पुढील सुधारणेसाठी खालील विश्लेषण तपासा.') + '</p>';
 
-    // Analytics Grid
+    // Metrics Summary Grid
     html += '      <div class="result-analytics-grid">';
     html += '        <div class="analytics-card"><span class="analytics-val correct">' + results.correct + '</span><span class="analytics-lbl">बरोबर (Correct)</span></div>';
     html += '        <div class="analytics-card"><span class="analytics-val wrong">' + results.wrong + '</span><span class="analytics-lbl">चुकीचे (Wrong)</span></div>';
     html += '        <div class="analytics-card"><span class="analytics-val">' + results.unanswered + '</span><span class="analytics-lbl">सोडवले नाही</span></div>';
     html += '        <div class="analytics-card"><span class="analytics-val">' + results.accuracy + '%</span><span class="analytics-lbl">अचूकता (Accuracy)</span></div>';
+    html += '        <div class="analytics-card"><span class="analytics-val" style="color:var(--status-wrong);">- ' + results.negativeDeduction + '</span><span class="analytics-lbl">उणे गुण</span></div>';
+    html += '        <div class="analytics-card"><span class="analytics-val">' + results.timeTaken + '</span><span class="analytics-lbl">घेतलेला वेळ</span></div>';
     html += '      </div>';
 
-    // Summary Details
-    html += '      <div style="margin-top:1rem; padding-top:10px; border-top:1px solid var(--quiz-border); font-size:0.8rem; color:var(--quiz-text-muted); display:flex; justify-content:space-around;">';
-    html += '        <span>उणे गुण: -' + results.negativeDeduction + '</span>';
-    html += '        <span>वेळ: ' + results.timeTaken + '</span>';
-    html += '      </div>';
-
-    // Actions
+    // Top Action Buttons
     html += '      <div class="result-actions-bar">';
-    html += '        <button type="button" class="btn-result-action btn-review-answers" id="btnScrollToReview">उत्तर पत्रिका तपासा (Review Answers) ↓</button>';
+    html += '        <button type="button" class="btn-result-action btn-review-answers" id="btnScrollToReview">तपशीलवार उत्तर पत्रिका (Review Answers) ↓</button>';
     html += '        <a href="../subjects/prelims/history.html" class="btn-result-action btn-back-subject">इतिहास विषयाकडे परत जा</a>';
     html += '      </div>';
     html += '    </div>';
 
-    // Review Answers Section
+    // 2. Visual Performance Graph (SVG Donut Chart)
+    var totalQ = quizData.questions.length;
+    var pctCorrect = totalQ > 0 ? (results.correct / totalQ) * 100 : 0;
+    var pctWrong = totalQ > 0 ? (results.wrong / totalQ) * 100 : 0;
+    var pctUnans = totalQ > 0 ? (results.unanswered / totalQ) * 100 : 0;
+
+    var circ = 251.32;
+    var dashCorrect = (pctCorrect / 100) * circ;
+    var dashWrong = (pctWrong / 100) * circ;
+    var dashUnans = (pctUnans / 100) * circ;
+
+    var offsetCorrect = 0;
+    var offsetWrong = -dashCorrect;
+    var offsetUnans = -(dashCorrect + dashWrong);
+
+    html += '    <div class="analysis-section-card">';
+    html += '      <h3 class="analysis-section-title"><span>कामगिरी आलेख (Performance Visual)</span><span style="font-size:0.75rem; color:var(--quiz-text-muted);">गुणवत्ता प्रमाण</span></h3>';
+    html += '      <div class="visual-graph-layout">';
+    html += '        <div class="donut-chart-wrap">';
+    html += '          <svg class="donut-svg" viewBox="0 0 100 100">';
+    html += '            <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--quiz-border)" stroke-width="12"></circle>';
+    if (dashCorrect > 0) {
+      html += '            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#2E7D32" stroke-width="12" stroke-dasharray="' + dashCorrect + ' ' + (circ - dashCorrect) + '" stroke-dashoffset="' + offsetCorrect + '"></circle>';
+    }
+    if (dashWrong > 0) {
+      html += '            <circle cx="50" cy="50" r="40" fill="transparent" stroke="#C62828" stroke-width="12" stroke-dasharray="' + dashWrong + ' ' + (circ - dashWrong) + '" stroke-dashoffset="' + offsetWrong + '"></circle>';
+    }
+    if (dashUnans > 0) {
+      html += '            <circle cx="50" cy="50" r="40" fill="transparent" stroke="var(--quiz-text-dim)" stroke-width="12" stroke-dasharray="' + dashUnans + ' ' + (circ - dashUnans) + '" stroke-dashoffset="' + offsetUnans + '"></circle>';
+    }
+    html += '          </svg>';
+    html += '          <div class="donut-center-stat">';
+    html += '            <span class="donut-center-pct">' + results.accuracy + '%</span>';
+    html += '            <span class="donut-center-lbl">अचूकता</span>';
+    html += '          </div>';
+    html += '        </div>';
+
+    html += '        <div class="donut-legend-col">';
+    html += '          <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#2E7D32;"></span><span>बरोबर (Correct)</span></div><span>' + results.correct + ' (' + Math.round(pctCorrect) + '%)</span></div>';
+    html += '          <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:#C62828;"></span><span>चुकीचे (Wrong)</span></div><span>' + results.wrong + ' (' + Math.round(pctWrong) + '%)</span></div>';
+    html += '          <div class="donut-legend-item"><div class="donut-legend-left"><span class="donut-legend-dot" style="background:var(--quiz-text-dim);"></span><span>सोडवले नाही</span></div><span>' + results.unanswered + ' (' + Math.round(pctUnans) + '%)</span></div>';
+    html += '        </div>';
+    html += '      </div>';
+    html += '    </div>';
+
+    // 3. Time Analysis Card
+    html += '    <div class="analysis-section-card">';
+    html += '      <h3 class="analysis-section-title"><span>वेळ विश्लेषण (Time Analysis)</span><span style="font-size:0.75rem; color:var(--quiz-text-muted);">वेळ व्यवस्थापन</span></h3>';
+    html += '      <div class="time-metrics-row">';
+    html += '        <div class="time-metric-box"><div class="time-metric-title">एकूण वेळ</div><div class="time-metric-number">' + results.timeTaken + '</div></div>';
+    html += '        <div class="time-metric-box"><div class="time-metric-title">सरासरी वेळ / प्रश्न</div><div class="time-metric-number">' + results.avgTimePerQ + ' सेकंद</div></div>';
+    html += '        <div class="time-metric-box"><div class="time-metric-title">वेळ संपल्यामुळे सबमिट?</div><div class="time-metric-number">' + (results.wasTimeout ? 'होय (Timeout)' : 'नाही (User Submit)') + '</div></div>';
+    html += '      </div>';
+    html += '    </div>';
+
+    // 4. Chapter-wise Performance
+    html += '    <div class="analysis-section-card">';
+    html += '      <h3 class="analysis-section-title"><span>घटकनिहाय कामगिरी (Chapter-wise Performance)</span><span style="font-size:0.75rem; color:var(--quiz-text-muted);">अभ्यास विश्लेषण</span></h3>';
+    html += '      <div class="chapter-perf-list">';
+
+    Object.keys(results.chapterStats).forEach(function (chKey) {
+      var ch = results.chapterStats[chKey];
+      var chAcc = ch.attempted > 0 ? Math.round((ch.correct / ch.attempted) * 100) : 0;
+      html += '        <div class="chapter-perf-row">';
+      html += '          <div class="chapter-perf-header">';
+      html += '            <span class="chapter-perf-name">' + ch.name + '</span>';
+      html += '            <span class="chapter-perf-score">' + ch.correct + '/' + ch.total + ' बरोबर (' + chAcc + '%)</span>';
+      html += '          </div>';
+      html += '          <div class="chapter-perf-progress">';
+      html += '            <div class="chapter-perf-fill" style="width:' + chAcc + '%;"></div>';
+      html += '          </div>';
+      html += '        </div>';
+    });
+
+    html += '      </div>';
+    html += '    </div>';
+
+    // 5. Question Performance Quick Grid
+    html += '    <div class="analysis-section-card">';
+    html += '      <h3 class="analysis-section-title"><span>प्रश्न स्थिती तालिका (Question Performance)</span><span style="font-size:0.75rem; color:var(--quiz-text-muted);">तपासण्यासाठी क्लिक करा</span></h3>';
+    html += '      <div class="question-pills-grid">';
+
+    quizData.questions.forEach(function (q, idx) {
+      var userAns = selectedAnswers[q.questionId];
+      var isCorrect = userAns === q.correctAnswer;
+      var isUnanswered = !userAns;
+      var numStr = (idx + 1 < 10 ? '0' : '') + (idx + 1);
+
+      var pillClass = isCorrect ? 'is-correct' : (isUnanswered ? 'is-unanswered' : 'is-wrong');
+      var icon = isCorrect ? '✓' : (isUnanswered ? '—' : '✕');
+
+      html += '        <button type="button" class="q-status-pill-btn ' + pillClass + '" data-scroll-q="' + idx + '">';
+      html += numStr + ' ' + icon;
+      html += '        </button>';
+    });
+
+    html += '      </div>';
+    html += '    </div>';
+
+    // 6. Detailed Answer Review Section
     html += '    <div class="review-questions-section" id="reviewQuestionsSection">';
-    html += '      <h3 style="font-size:1.15rem; font-weight:800; color:var(--quiz-text); margin:0.5rem 0 0;">तपशीलवार उत्तर पत्रिका व स्पष्टीकरण (Detailed Review)</h3>';
+    html += '      <h3 style="font-size:1.1rem; font-weight:800; color:var(--quiz-text); margin:0.4rem 0 0;">तपशीलवार उत्तर पत्रिका व स्पष्टीकरण (Detailed Review)</h3>';
 
     quizData.questions.forEach(function (q, idx) {
       var userAns = selectedAnswers[q.questionId];
@@ -721,13 +876,15 @@
         if (opt.id === q.correctAnswer) correctAnsText = opt.id + '. ' + opt.text.mr;
       });
 
-      html += '      <div class="review-item-card ' + cardClass + '">';
+      var isReported = !!reportedQuestions[q.questionId];
+
+      html += '      <div class="review-item-card ' + cardClass + '" id="review-card-item-' + idx + '">';
       html += '        <div style="display:flex; justify-content:space-between; align-items:center;">';
       html += '          <span style="font-size:0.8rem; font-weight:800; color:var(--quiz-primary);">प्रश्न ' + (idx + 1) + '</span>';
       html += '          <span class="review-status-badge ' + statusClass + '">' + statusLabel + '</span>';
       html += '        </div>';
 
-      html += '        <div style="font-size:1rem; font-weight:700; color:var(--quiz-text);">' + q.question.mr + '</div>';
+      html += '        <div style="font-size:0.98rem; font-weight:700; color:var(--quiz-text);">' + q.question.mr + '</div>';
       if (q.question.en) {
         html += '        <div style="font-size:0.85rem; color:var(--quiz-text-muted);">' + q.question.en + '</div>';
       }
@@ -751,8 +908,8 @@
       // Footer with individual Report This Question button
       html += '        <div class="review-card-footer">';
       html += '          <span>घटक: ' + (quizData.chapterNameMr || 'इतिहास') + '</span>';
-      html += '          <button type="button" class="btn-report-question" data-report-qidx="' + (idx + 1) + '" data-report-qid="' + q.questionId + '" data-report-chapter="' + (q.chapterId || quizData.chapterId || 'H-01') + '">';
-      html += '            <span>🚩 Report This Question</span>';
+      html += '          <button type="button" class="btn-report-question ' + (isReported ? 'is-reported' : '') + '" data-report-qidx="' + idx + '" id="btnReportReviewQ_' + q.questionId + '">';
+      html += '            <span>🚩</span> <span>' + (isReported ? 'Reported' : 'Report This Question') + '</span>';
       html += '          </button>';
       html += '        </div>';
 
@@ -776,97 +933,222 @@
       });
     }
 
-    // Bind individual Report Question Buttons
+    // Bind Quick Navigation Pills
+    var quickNavPills = document.querySelectorAll('.q-status-pill-btn');
+    quickNavPills.forEach(function (pill) {
+      pill.addEventListener('click', function () {
+        var targetQ = pill.getAttribute('data-scroll-q');
+        var card = document.getElementById('review-card-item-' + targetQ);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      });
+    });
+
+    // Bind individual Report Question Buttons in Review
     var reportBtns = document.querySelectorAll('.btn-report-question');
     reportBtns.forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var qId = btn.getAttribute('data-report-qid');
-        var qIdx = btn.getAttribute('data-report-qidx');
-        var chId = btn.getAttribute('data-report-chapter');
-
-        var matchedQ = quizData.questions.filter(function (item) {
-          return item.questionId === qId;
-        })[0];
-
-        openReportModal({
-          quizTitle: quizData.titleMr || quizData.title,
-          quizId: quizData.quizId,
-          subject: quizData.subjectNameMr || 'इतिहास (History)',
-          chapterName: quizData.chapterNameMr || 'आधुनिक भारताचा इतिहास',
-          chapterId: chId,
-          questionNumber: qIdx,
-          questionId: qId,
-          questionText: matchedQ ? matchedQ.question.mr : ''
-        });
+        var qIdx = parseInt(btn.getAttribute('data-report-qidx'), 10);
+        triggerReportForQuestion(qIdx);
       });
     });
   }
 
   /* ==========================================================================
-     11. Telegram Question Reporting (Prefilled Compose Intent)
+     11. FINAL Question Reporting System (Google Apps Script Web App)
      ========================================================================== */
+  function triggerReportForQuestion(questionIdx) {
+    if (!quizData || !quizData.questions[questionIdx]) return;
+    var targetQ = quizData.questions[questionIdx];
+
+    openReportModal({
+      quizId: quizData.quizId || 'H-CH01-001',
+      questionId: targetQ.questionId,
+      questionNumber: questionIdx + 1,
+      subject: quizData.subjectNameMr || quizData.subject || 'इतिहास',
+      chapter: targetQ.chapterId || quizData.chapterId || 'H-01',
+      question: targetQ.question.mr || targetQ.question.en || ''
+    });
+  }
+
   function openReportModal(payload) {
     activeReportPayload = payload;
     if (!els.reportModal) return;
 
     var reportInfoBox = document.getElementById('reportTargetInfo');
     if (reportInfoBox) {
+      var questionSnippet = payload.question.length > 90
+        ? payload.question.substring(0, 90) + '...'
+        : payload.question;
+
       reportInfoBox.innerHTML = 
-        '<div><strong>चाचणी:</strong> ' + payload.quizTitle + ' (' + payload.quizId + ')</div>' +
-        '<div><strong>प्रश्न क्र.:</strong> प्रश्न ' + payload.questionNumber + ' (' + payload.questionId + ')</div>' +
-        '<div><strong>घटक:</strong> ' + payload.chapterName + ' (' + payload.chapterId + ')</div>' +
-        '<div style="font-size:0.8rem; margin-top:4px; color:var(--quiz-text-muted);">' + payload.questionText.substring(0, 110) + '...</div>';
+        '<div><strong>Quiz ID:</strong> ' + payload.quizId + ' • <strong>Question:</strong> #' + payload.questionNumber + ' (' + payload.questionId + ')</div>' +
+        '<div><strong>Chapter:</strong> ' + payload.chapter + ' • <strong>Subject:</strong> ' + payload.subject + '</div>' +
+        '<div style="margin-top:4px; color:var(--quiz-text-muted); font-style:italic;">"' + questionSnippet + '"</div>';
     }
 
+    // Reset form elements
+    var issueSelect = document.getElementById('reportIssueSelect');
+    var detailsTextarea = document.getElementById('reportDetailsTextarea');
+    var errorEl = document.getElementById('reportValidationError');
+    var submitBtn = document.getElementById('btnSubmitReport');
+
+    if (issueSelect) {
+      issueSelect.value = '';
+      issueSelect.classList.remove('has-error');
+    }
+    if (detailsTextarea) {
+      detailsTextarea.value = '';
+    }
+    if (errorEl) {
+      errorEl.style.display = 'none';
+      errorEl.textContent = 'Please select an issue.';
+    }
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Report';
+    }
+
+    isSubmittingReport = false;
     els.reportModal.classList.add('is-open');
+
+    if (issueSelect) {
+      setTimeout(function () {
+        issueSelect.focus();
+      }, 50);
+    }
   }
 
   function closeReportModal() {
     if (els.reportModal) els.reportModal.classList.remove('is-open');
     activeReportPayload = null;
+    isSubmittingReport = false;
   }
 
   function executeReportSubmission() {
-    if (!activeReportPayload) return;
-    var reasonSelect = document.getElementById('reportReasonSelect');
-    var reasonVal = reasonSelect ? reasonSelect.value : 'Typo / Answer Error';
+    if (!activeReportPayload || isSubmittingReport) return;
 
-    // Construct Telegram Report Message exactly as specified
-    var reportText = 
-      'MPSC Group C 2026 — Quiz Question Report\n' +
-      'Quiz: ' + activeReportPayload.quizTitle + '\n' +
-      'Quiz ID: ' + activeReportPayload.quizId + '\n' +
-      'Subject: ' + activeReportPayload.subject + '\n' +
-      'Chapter: ' + activeReportPayload.chapterId + ' — ' + activeReportPayload.chapterName + '\n' +
-      'Question ID: ' + activeReportPayload.questionId + '\n' +
-      'Question Number: ' + activeReportPayload.questionNumber + '\n' +
-      'Issue: ' + reasonVal + '\n' +
-      'Question:\n' +
-      activeReportPayload.questionText;
+    var issueSelect = document.getElementById('reportIssueSelect');
+    var detailsTextarea = document.getElementById('reportDetailsTextarea');
+    var errorEl = document.getElementById('reportValidationError');
+    var submitBtn = document.getElementById('btnSubmitReport');
 
-    // Direct Telegram compose share URL (puts the text right into the message compose box)
-    var telegramShareUrl = 'https://t.me/share/url?text=' + encodeURIComponent(reportText);
+    var issueValue = issueSelect ? issueSelect.value.trim() : '';
 
-    // Also copy to clipboard as an instant fallback
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(reportText);
+    // Validation: Issue dropdown is REQUIRED
+    if (!issueValue) {
+      if (errorEl) {
+        errorEl.textContent = 'Please select an issue.';
+        errorEl.style.display = 'block';
       }
-    } catch (e) {}
+      if (issueSelect) {
+        issueSelect.classList.add('has-error');
+        issueSelect.focus();
+      }
+      return;
+    }
 
-    closeReportModal();
+    if (errorEl) errorEl.style.display = 'none';
+    if (issueSelect) issueSelect.classList.remove('has-error');
 
-    // Open Telegram with prefilled compose message
-    window.open(telegramShareUrl, '_blank', 'noopener,noreferrer');
+    var additionalDetailsValue = detailsTextarea ? detailsTextarea.value.trim() : '';
 
-    // Friendly Toast notification
+    // Build payload exactly as configured in Google Sheet schema
+    var payload = {
+      quizId: activeReportPayload.quizId,
+      questionId: activeReportPayload.questionId,
+      questionNumber: activeReportPayload.questionNumber,
+      subject: activeReportPayload.subject,
+      chapter: activeReportPayload.chapter,
+      question: activeReportPayload.question,
+      issue: issueValue,
+      additionalDetails: additionalDetailsValue
+    };
+
+    var reportedQId = activeReportPayload.questionId;
+
+    // Duplicate submission protection
+    isSubmittingReport = true;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+    }
+
+    // Send data to Google Apps Script Web App
+    fetch(REPORT_APPS_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'text/plain;charset=utf-8'
+      },
+      body: JSON.stringify(payload)
+    })
+      .then(function () {
+        // Track reported status in session
+        reportedQuestions[reportedQId] = true;
+        persistState();
+        updateReportButtonsState(reportedQId);
+
+        // Success toast notification
+        showToast('Report submitted successfully.');
+
+        // Automatically close modal
+        closeReportModal();
+      })
+      .catch(function (err) {
+        console.error('Google Sheets report error:', err);
+        isSubmittingReport = false;
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Submit Report';
+        }
+        if (errorEl) {
+          errorEl.textContent = 'Failed to submit report. Please check your connection and try again.';
+          errorEl.style.display = 'block';
+        }
+      });
+  }
+
+  function updateReportButtonsState(questionId) {
+    // Update active question report button if open
+    var btnActive = document.getElementById('btnReportActiveQuestion');
+    if (btnActive && quizData && quizData.questions[currentQuestionIndex] && quizData.questions[currentQuestionIndex].questionId === questionId) {
+      btnActive.classList.add('is-reported');
+      btnActive.innerHTML = '<span>🚩</span> <span>Reported</span>';
+    }
+
+    // Update review list button if present
+    var btnReview = document.getElementById('btnReportReviewQ_' + questionId);
+    if (btnReview) {
+      btnReview.classList.add('is-reported');
+      btnReview.innerHTML = '<span>🚩</span> <span>Reported</span>';
+    }
+  }
+
+  function showToast(message) {
+    var existingToast = document.querySelector('.quiz-toast-notification');
+    if (existingToast && existingToast.parentNode) {
+      existingToast.parentNode.removeChild(existingToast);
+    }
+
     var toast = document.createElement('div');
-    toast.style.cssText = 'position:fixed; bottom:24px; left:50%; transform:translateX(-50%); background:#2E7D32; color:#fff; padding:10px 18px; border-radius:9999px; font-weight:700; font-size:0.85rem; z-index:3000; box-shadow:0 4px 14px rgba(0,0,0,0.2);';
-    toast.textContent = 'Telegram उघडले (तपशील भरले आहेत — फक्त Send दाबा)';
+    toast.className = 'quiz-toast-notification';
+    toast.textContent = message;
     document.body.appendChild(toast);
+
+    // Animate in
     setTimeout(function () {
-      if (toast.parentNode) toast.parentNode.removeChild(toast);
-    }, 3500);
+      toast.classList.add('is-visible');
+    }, 20);
+
+    // Animate out
+    setTimeout(function () {
+      toast.classList.remove('is-visible');
+      setTimeout(function () {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 300);
+    }, 3200);
   }
 
   /* ==========================================================================
@@ -884,8 +1166,8 @@
     if (els.fontToggleBtn) els.fontToggleBtn.addEventListener('click', cycleFontSize);
     if (els.mobileFontToggleBtn) els.mobileFontToggleBtn.addEventListener('click', cycleFontSize);
 
-    // Mark for Review & Advance
-    if (els.markReviewBtn) els.markReviewBtn.addEventListener('click', toggleCurrentMarkReviewAndAdvance);
+    // Mark for Review (Manual Toggle — Remains on current question)
+    if (els.markReviewBtn) els.markReviewBtn.addEventListener('click', toggleCurrentMarkReviewManual);
 
     // Mobile Left Palette Drawer Toggle
     if (els.mobilePaletteToggle) els.mobilePaletteToggle.addEventListener('click', openMobilePalette);
@@ -907,15 +1189,29 @@
       executeSubmission(false);
     });
 
-    // Report Modal Buttons
+    // Report Modal Controls (English only action buttons)
     var btnCancelReport = document.getElementById('btnCancelReport');
     var btnSubmitReport = document.getElementById('btnSubmitReport');
+    var btnCloseReportX = document.getElementById('btnCloseReportX');
+    var issueSelect = document.getElementById('reportIssueSelect');
+
     if (btnCancelReport) btnCancelReport.addEventListener('click', closeReportModal);
+    if (btnCloseReportX) btnCloseReportX.addEventListener('click', closeReportModal);
     if (btnSubmitReport) btnSubmitReport.addEventListener('click', executeReportSubmission);
 
-    // Keyboard ESC to close any open modal or left palette
+    if (issueSelect) {
+      issueSelect.addEventListener('change', function () {
+        var errorEl = document.getElementById('reportValidationError');
+        if (issueSelect.value.trim()) {
+          issueSelect.classList.remove('has-error');
+          if (errorEl) errorEl.style.display = 'none';
+        }
+      });
+    }
+
+    // Keyboard ESC to close open modals or left palette
     document.addEventListener('keydown', function (e) {
-      if (isSubmitted) return;
+      if (isSubmitted && (!els.reportModal || !els.reportModal.classList.contains('is-open'))) return;
       if (e.key === 'Escape') {
         closeMobilePalette();
         closeExitModal();
