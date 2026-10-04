@@ -46,7 +46,7 @@
         </div>
 
         <div class="quiz-header-right">
-          <!-- Compact Quiz Font Size Control -->
+          <!-- Compact Quiz Font Size Control (Small by default) -->
           <button type="button" class="btn-quiz-font-toggle" id="quizFontToggleBtn" aria-label="Change Reading Font Size" title="Font Size: Small (click to toggle Small/Medium/Large)">
             <span class="font-indicator-label">Font:</span>
             <span class="font-current-val" id="quizFontCurrentVal">Small</span>
@@ -68,7 +68,7 @@
 
       <!-- Mobile 3-Row Header Layout (Context Visible, No Overflow) -->
       <div class="quiz-header-mobile-view">
-        <!-- Row 1: Quiz Title + Controls -->
+        <!-- Row 1: Quiz Title + Font & Exit Controls -->
         <div class="mobile-hdr-row-1">
           <h1 class="mobile-quiz-title" id="mobileQuizTitle">Modern India — Practice Test 01</h1>
           <div class="mobile-hdr-controls">
@@ -116,7 +116,7 @@
       <!-- Central: Scrollable Question Viewport -->
       <section class="quiz-question-viewport" id="quizQuestionViewport" aria-label="Question Content">
         <div class="question-scroll-content" id="questionScrollContent">
-          <!-- Dynamic Question + Options rendered into ONE box by quiz.js -->
+          <!-- Dynamic Question + Options rendered into ONE white box by quiz.js -->
         </div>
       </section>
 
@@ -155,7 +155,7 @@
 
     <!-- BOTTOM: Fixed Quiz Control Bar (Two-Tier Responsive Layout for Mobile) -->
     <footer class="quiz-bottom-control-bar" id="quizBottomControlBar" role="region" aria-label="Quiz Controls">
-      <!-- Fixed Mark for Review Action -->
+      <!-- Fixed Mark for Review Action (Manual Toggle — Remains on same question) -->
       <div class="bottom-bar-left">
         <button type="button" class="btn-mark-review" id="btnToggleMarkReview">
           <span id="markReviewStarIcon">☆</span>
@@ -163,7 +163,7 @@
         </button>
       </div>
 
-      <!-- Navigation & Submit Controls -->
+      <!-- Navigation & Submit Controls (Manual Step Navigation) -->
       <div class="bottom-bar-right">
         <button type="button" class="control-btn btn-nav-prev" id="btnNavPrev" disabled>
           <span aria-hidden="true">←</span>
@@ -232,13 +232,13 @@
        ========================================================================== -->
   <div class="quiz-modal-backdrop" id="exitConfirmModal" role="dialog" aria-modal="true" aria-labelledby="exitModalTitle">
     <div class="quiz-dialog-box">
-      <h2 class="modal-dialog-title" id="exitModalTitle">Exit Quiz? (चाचणी सोडायची आहे का?)</h2>
+      <h2 class="modal-dialog-title" id="exitModalTitle">Exit Quiz?</h2>
       <div class="modal-dialog-body">
-        आपण चाचणी सोडल्यास आतापर्यंत सोडवलेली उत्तरे जतन केली जाणार नाहीत आणि चाचणी बंद होईल.
+        Are you sure you want to exit? Your progress in this quiz session will be cleared.
       </div>
       <div class="modal-actions-row">
-        <button type="button" class="btn-modal-cancel" id="btnCancelExit">Continue Quiz (सुरू ठेवा)</button>
-        <button type="button" class="btn-modal-danger" id="btnConfirmExit">Exit Quiz (बाहेर पडा)</button>
+        <button type="button" class="btn-modal-cancel" id="btnCancelExit">Cancel</button>
+        <button type="button" class="btn-modal-danger" id="btnConfirmExit">Exit Quiz</button>
       </div>
     </div>
   </div>
@@ -248,9 +248,9 @@
        ========================================================================== -->
   <div class="quiz-modal-backdrop" id="submitConfirmModal" role="dialog" aria-modal="true" aria-labelledby="submitModalTitle">
     <div class="quiz-dialog-box">
-      <h2 class="modal-dialog-title" id="submitModalTitle">Submit Quiz? (चाचणी सबमिट करायची?)</h2>
+      <h2 class="modal-dialog-title" id="submitModalTitle">Submit Quiz?</h2>
       <div class="modal-dialog-body">
-        चाचणी पूर्ण झाली आहे. कृपया आपली उत्तरे तपासा आणि सबमिट करा:
+        Please review your attempt status before final submission:
         <div class="submit-stats-list">
           <div class="stat-metric-card">
             <span class="stat-metric-val" id="statValAnswered" style="color: #2E7D32;">0</span>
@@ -268,38 +268,58 @@
       </div>
       <div class="modal-actions-row">
         <button type="button" class="btn-modal-cancel" id="btnCancelSubmit">Continue Quiz</button>
-        <button type="button" class="btn-modal-confirm" id="btnConfirmSubmit">Submit Quiz ✓</button>
+        <button type="button" class="btn-modal-confirm" id="btnConfirmSubmit">Submit Quiz</button>
       </div>
     </div>
   </div>
 
   <!-- ==========================================================================
-       Report Question Modal (Prefilled Telegram Compose Flow)
+       FINAL Question Reporting Modal (Google Sheets + Apps Script Integration)
        ========================================================================== -->
   <div class="quiz-modal-backdrop" id="reportQuestionModal" role="dialog" aria-modal="true" aria-labelledby="reportModalTitle">
-    <div class="quiz-dialog-box">
-      <h2 class="modal-dialog-title" id="reportModalTitle">🚩 Report Question (प्रश्नात त्रुटी नोंदवा)</h2>
-      <div class="modal-dialog-body">
-        <div id="reportTargetInfo" class="report-meta-box">
-          <!-- Injected dynamically with Quiz ID, Question ID, and text -->
-        </div>
-        <label for="reportReasonSelect" style="display:block; font-size:0.82rem; font-weight:700; margin-bottom:6px; color:var(--quiz-text);">त्रुटीचा प्रकार (Select Issue):</label>
-        <select id="reportReasonSelect" class="report-reason-select">
-          <option value="Wrong Answer Key / चुकीचे उत्तर">दिलेले उत्तर चुकीचे वाटते (Wrong Answer Key)</option>
-          <option value="Typo / भाषांतर किंवा टंकलेखन चूक">टंकलेखन किंवा भाषांतर चूक (Typo / Translation)</option>
-          <option value="Question Ambiguity / प्रश्नात संदिग्धता">प्रश्नाची रचना अस्पष्ट आहे (Ambiguous Question)</option>
-          <option value="Out of Syllabus / अभ्यासक्रमाबाहेर">अभ्यासक्रमाबाहेरचा प्रश्न (Out of Syllabus)</option>
-        </select>
-        <p style="font-size:0.8rem; color:var(--quiz-text-muted); margin:0; line-height:1.4;">
-          हा अहवाल Telegram उघडून थेट संदेश चौकटीत (compose box) भरला जाईल. आपल्याला फक्त <strong>Send</strong> बटण दाबावे लागेल.
-        </p>
+    <div class="quiz-dialog-box report-dialog-box">
+      <div class="report-dialog-header">
+        <h2 class="modal-dialog-title" id="reportModalTitle">Report Question</h2>
+        <button type="button" class="btn-modal-close-icon" id="btnCloseReportX" aria-label="Close dialog">✕</button>
       </div>
-      <div class="modal-actions-row">
-        <button type="button" class="btn-modal-cancel" id="btnCancelReport">रद्द करा (Cancel)</button>
-        <button type="button" class="btn-modal-confirm" id="btnSubmitReport" style="background-color:#229ED9;">
-          <span>Telegram उघडा व पाठवा</span>
-          <span aria-hidden="true">↗</span>
-        </button>
+
+      <div class="modal-dialog-body report-dialog-body">
+        <!-- Target Question Snapshot -->
+        <div id="reportTargetInfo" class="report-meta-box">
+          <!-- Dynamically populated with Quiz ID, Question ID, and text preview -->
+        </div>
+
+        <form id="reportQuestionForm" onsubmit="return false;" novalidate>
+          <!-- 1. Issue dropdown (REQUIRED) -->
+          <div class="report-form-group">
+            <label for="reportIssueSelect" class="report-form-label">Issue <span class="required-star">*</span></label>
+            <select id="reportIssueSelect" class="report-issue-select" required aria-required="true">
+              <option value="" disabled selected>Select an issue</option>
+              <option value="Wrong Question">Wrong Question</option>
+              <option value="Wrong Answer">Wrong Answer</option>
+              <option value="Incorrect Explanation">Incorrect Explanation</option>
+              <option value="Typing / Language Error">Typing / Language Error</option>
+              <option value="Duplicate Question">Duplicate Question</option>
+              <option value="Technical Issue">Technical Issue</option>
+              <option value="Other">Other</option>
+            </select>
+            <div id="reportValidationError" class="report-validation-error" style="display: none;" role="alert">
+              Please select an issue.
+            </div>
+          </div>
+
+          <!-- 2. Additional Details (OPTIONAL) -->
+          <div class="report-form-group">
+            <label for="reportDetailsTextarea" class="report-form-label">Additional Details</label>
+            <textarea id="reportDetailsTextarea" class="report-details-textarea" rows="3" placeholder="Optional: Provide more details (e.g. Correct answer should be option B)."></textarea>
+          </div>
+        </form>
+      </div>
+
+      <!-- Action Buttons (Strictly English Only) -->
+      <div class="modal-actions-row report-actions-row">
+        <button type="button" class="btn-modal-cancel" id="btnCancelReport">Cancel</button>
+        <button type="button" class="btn-modal-confirm btn-submit-report" id="btnSubmitReport">Submit Report</button>
       </div>
     </div>
   </div>
